@@ -1,4 +1,5 @@
-# full_stack
-SpringBoot + React + NectJS + Typescript
-
-tailwind slide-overs
+# Tech Stack
++ SpringBoot (Gradle)
++ MySQL
++ Next.js + TypeScript
++ Tailwind CSS
