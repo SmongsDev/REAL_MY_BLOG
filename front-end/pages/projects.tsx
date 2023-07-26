@@ -1,4 +1,4 @@
-import Layout from "@/components/layout";
+import Layout from "@/components/Layout";
 import Head from "next/head";
 import { TOKEN, DATABASE_ID } from "@/config";
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';

@@ -1,5 +1,5 @@
 import BlogItem from "@/components/blog/blog-item";
-import Layout from "@/components/layout";
+import Layout from "@/components/Layout";
 import Head from "next/head";
 
 export default function Blog(){

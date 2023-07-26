@@ -1,5 +1,5 @@
 import Link from "next/link";
-import DarkModeToggleButton from "./dark-mode-toggle-button";
+import DarkModeToggleButton from "./Dark-mode-toggle-button";
 
 export default function Header(){
     return (
@@ -14,11 +14,7 @@ export default function Header(){
                         <span className="main-title">SMONGS BLOG</span>
                         </a>
                     </Link>
-                    <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-                    
-                        <Link href={"/"} legacyBehavior>
-                            <a className="mr-5 hover:text-stone-900 dark:hover:text-gray-500">홈</a>
-                        </Link>
+                    <nav className="md:mr-auto md:ml-4 md:py-1 md:pl-4 flex flex-wrap items-center text-base justify-center">
                         <Link href={"/projects"} legacyBehavior>
                             <a className="mr-5 hover:text-stone-900 dark:hover:text-gray-500">프로젝트</a>
                         </Link>
