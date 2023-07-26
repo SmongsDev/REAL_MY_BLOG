@@ -1,4 +1,7 @@
-# full_stack
-SpringBoot + React + NectJS + Typescript
+# REAL_MY_BLOG
 
-tailwind slide-overs
+# Tech Stack
++ Spring Boot (Gradle)
++ MySQL
++ Next.js + TypeScript
++ Tailwind CSS
