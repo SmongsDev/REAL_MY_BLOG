@@ -13,6 +13,8 @@
     "@types/node": "20.4.2",
     "@types/react": "18.2.15",
     "@types/react-dom": "18.2.7",
+    "@types/summernote": "^0.8.7",
+    "axios": "^1.4.0",
     "clsx": "^2.0.0",
     "dayjs": "^1.11.9",
     "dotenv": "^16.3.1",
@@ -28,6 +30,7 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
+    "@types/jquery": "^3.5.16",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.26",
     "tailwindcss": "^3.3.3"

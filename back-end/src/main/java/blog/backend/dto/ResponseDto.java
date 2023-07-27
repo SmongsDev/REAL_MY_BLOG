@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ResponseDto<T> {
-    boolean isLoading;
-    boolean isError;
+    // boolean isLoading;
+    int errorCode;
     T data;
 }

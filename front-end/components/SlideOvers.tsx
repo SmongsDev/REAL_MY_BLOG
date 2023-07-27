@@ -3,6 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import useShortcut from '@/hooks/useShortcut';
 import { XDarkIcon, XLightIcon } from './Icons';
 import useTheme from '@/hooks/useTheme';
+import CreatePost from './CreatePost';
 // import { XMarkIcon } from '@heroicons/react/24/outline'
 
 export default function SlideOvers() {
@@ -79,6 +80,7 @@ export default function SlideOvers() {
                     </div>
                     <div className="relative mt-6 flex-1 px-4 sm:px-6">
                       어떤 컨텐츠를 넣을까
+                      <CreatePost />
                     </div>
                   </div>
                 </Dialog.Panel>

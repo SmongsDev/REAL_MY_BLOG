@@ -1,9 +1,10 @@
 import Link from "next/link";
 import DarkModeToggleButton from "./Dark-mode-toggle-button";
+import Script from "next/script";
 
 export default function Header(){
     return (
-        <>
+        <>  
             <header className="text-gray-600 body-font">
                 <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
                     <Link href={"/"} legacyBehavior>

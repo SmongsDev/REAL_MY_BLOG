@@ -13,12 +13,7 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
-      colors: {
-        'azur1': '#7F7FD5',
-        'azur2': '#86A8E7',
-        'azur3': '#91EAE4'
-      },
+      }
     },
   },
   plugins: [],
