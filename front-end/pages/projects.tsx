@@ -8,6 +8,7 @@ import ProjectType from "@/interface/projectType.interface";
 interface Repo {
     repo: any;
 }
+
  
 export const getServerSideProps: GetServerSideProps<{
 //   repo: Props

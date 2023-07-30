@@ -1,10 +1,57 @@
 import usePosts from "@/hooks/usePosts";
 import Editor from "./Editor";
 
-export default function CreatePost(){
-    const posts = usePosts();
+import { DEFAULT_URL, GITHUB_TOKEN } from "@/config"
+import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
+import axios from "axios";
 
-    console.log(posts);
+interface Data{
+  data: {
+    id: number,
+    title: string,
+    content: string,
+    hits: number,
+    createDate: string
+  },
+  errorCode: number
+}
+
+
+
+export const getServerSideProps: GetServerSideProps<{
+      repo: Data
+    }> = async () => {
+    const requestHeaders: HeadersInit = new Headers();
+    if(!GITHUB_TOKEN) {
+      console.log("토큰이 없어요!");
+    }
+    else{
+      requestHeaders.set('X-Github-Token', GITHUB_TOKEN);
+      console.log("토큰 있음");
+    }
+    // const options = {
+    //   method: 'GET',
+    //   headers: {
+    //     "X-Github-Token": GITHUB_TOKEN,
+    //   }
+    // }
+    const res = await fetch(`${DEFAULT_URL}/api/project/1`, {method: 'GET', headers: requestHeaders}); //{method: 'GET', headers: requestHeaders}
+    console.log(res);
+    const repo = await res.json();
+    console.log(repo)
+    return repo;
+  };
+  
+
+export default function CreatePost({
+    repo,
+}: InferGetServerSidePropsType<typeof getServerSideProps>){
+    // const posts = usePosts();
+    console.log(repo?.data.title);
+
+
+    // if(posts != null)
+    //     console.log("있음", posts);
     return (
         <>
             <div className="mb-6">

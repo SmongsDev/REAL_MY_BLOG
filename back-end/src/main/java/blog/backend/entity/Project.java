@@ -39,5 +39,5 @@ public class Project {
     private int hits;
     
     @CreationTimestamp
-    private Timestamp createDate;
+    private Timestamp createdAt;
 }

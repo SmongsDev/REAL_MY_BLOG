@@ -1,15 +1,14 @@
 package blog.backend.repository;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
-import blog.backend.dto.project.ProjectCreateRequestDto;
 import blog.backend.entity.Project;
 
 public interface ProjectRepository extends JpaRepository<Project, Long>{
 
-    void save(ProjectCreateRequestDto requestDto);
-
-    Page<Project> findAll(Pageable pageable);
+    @Modifying
+    @Query("update Project p set p.hits = p.hits + 1 where p.id = :id")
+    void updateHits(Long id);
 }

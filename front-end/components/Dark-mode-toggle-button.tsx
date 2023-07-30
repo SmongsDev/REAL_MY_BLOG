@@ -14,7 +14,7 @@ export default function DarkModeToggleButton(){
                 inline-flex items-center 
                 border-0 py-1 px-3 
                 focus:outline-none 
-                bg-slate-200 
+                bg-slate-100 
                 hover:bg-gray-50
                 hover:text-orange-500
                 dark:bg-slate-600
@@ -26,8 +26,8 @@ export default function DarkModeToggleButton(){
                 onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             >
                 {
-                    theme === 'dark' ?
-                    <DarkIcon />
+                    theme === 'dark' 
+                    ? <DarkIcon />
                     : 
                     <LightIcon />
                 }
