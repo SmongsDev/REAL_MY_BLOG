@@ -2,49 +2,42 @@ import Layout from "@/components/Layout";
 import Head from "next/head";
 import { TOKEN, DATABASE_ID } from "@/config";
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
-import ProjectItem from "@/components/projects/project-item";
-import ProjectType from "@/interface/projectType.interface";
+import ProjectItems from "@/components/projects/project-items";
+import Data from "@/interface/projectT.interface";
+import useGithubData from "@/hooks/useTest";
 
-interface Repo {
-    repo: any;
+import { DEFAULT_URL, GITHUB_TOKEN } from '@/config';
+import { useState, useEffect } from 'react';
+
+interface DataType{
+    data: {
+        content: Data[]
+    },
+    errorCode: number
 }
 
- 
 export const getServerSideProps: GetServerSideProps<{
-//   repo: Props
-}> = async () => {
-    const options = {
-        method: "post",
-        headers: {
-            Accept: 'application/json',
-            'Notion-Version': '2022-06-28',
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${TOKEN}`
-        },
-        body: JSON.stringify({
-            sorts: [
-                {
-                    "property": "Name",
-                    "direction": "ascending"
-                }
-            ],
-            page_size: 100
-        })
-    };
-
-    const res = await fetch(`https://api.notion.com/v1/databases/${DATABASE_ID}/query`, options);
-    
-    const repo = await res.json();
-
+    repo: DataType
+    }> = async () => {
+    const requestHeaders: HeadersInit = new Headers();
+    if(!GITHUB_TOKEN) {
+        console.log("토큰이 없어요!");
+    }
+    else{
+        requestHeaders.set('X-Github-Token', GITHUB_TOKEN);
+        console.log("토큰 있음");
+    }
+    const res = await fetch(`${DEFAULT_URL}/api/projects?size=8`,{method: 'GET', headers: requestHeaders});
+    const repo:DataType = await res.json();
     return { props: { repo } }
-}
+};
 
 export default function Projects({
     repo
-}: Repo){ // InferGetServerSidePropsType<typeof getServerSideProps>    
+}: InferGetServerSidePropsType<typeof getServerSideProps>){    
 
-    const projectList = repo.results.map((aProject: ProjectType) => <ProjectItem key={aProject.id} data={aProject} />);
-
+    const projectList = repo.data.content.map((aProject: Data, index:number) => <ProjectItems key={index} data={aProject} />);
+    
     return (
         <Layout>
             <div className="flex flex-col items-center justify-center min-h-screen px-5 mb-10 px-6">
@@ -62,7 +55,7 @@ export default function Projects({
                         <div className="lg:w-1/2 w-full mb-6 lg:mb-0">
                             <h1 className="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">
                                 프로젝트 : 
-                                <span className="pl-4 text-blue-500">{repo.results?.length}</span>
+                                {/* <span className="pl-4 text-blue-500">{repo.data.title}</span> */}
                             </h1>
                             <div className="h-1 w-20 bg-indigo-500 rounded"></div>
                         </div>
@@ -72,6 +65,7 @@ export default function Projects({
                     </div>
                     <div className="flex flex-wrap w-full mb-20">
                         {projectList}
+                    
                     </div>
                 </div>
 
@@ -81,3 +75,4 @@ export default function Projects({
         </ Layout>
     )
 }
+// export default Projects;

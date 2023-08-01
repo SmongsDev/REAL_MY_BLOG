@@ -1,10 +1,8 @@
 import Link from "next/link";
-import Shortcut from "./Shortcut";
 
 export default function Footer(){
     return (
         <>
-            <Shortcut />
             <footer className="body-font">
                 <div className="">
                     <div className="container px-5 py-6 mx-auto flex items-center sm:flex-row flex-col">

@@ -30,7 +30,7 @@
 
 .url-link {
     @apply text-slate-500 text-sm hover:text-sky-400
-}
+}@use "katex/dist/katex.min.css";
 
 h1, h2, h3, h4, h5, h6 {
     @apply text-slate-900 dark:text-white

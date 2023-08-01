@@ -4,13 +4,14 @@ import useShortcut from '@/hooks/useShortcut';
 import { XDarkIcon, XLightIcon } from './Icons';
 import useTheme from '@/hooks/useTheme';
 import CreatePost from './CreatePost';
+import VerbumTextEditor from './NoteViewer';
 // import { XMarkIcon } from '@heroicons/react/24/outline'
 
 export default function SlideOvers() {
   const { theme, setTheme } = useTheme();
   const [open, setOpen] = useState(false)
   useShortcut('KeyQ', () => {
-      setOpen(!open);
+    setOpen(!open);
   });
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -80,7 +81,8 @@ export default function SlideOvers() {
                     </div>
                     <div className="relative mt-6 flex-1 px-4 sm:px-6">
                       어떤 컨텐츠를 넣을까
-                      <CreatePost />
+                      {/* <CreatePost /> */}
+                      {/* <VerbumTextEditor /> */}
                     </div>
                   </div>
                 </Dialog.Panel>

@@ -23,6 +23,9 @@ export default function Header(){
                             <a className="mr-5 hover:text-stone-900 dark:hover:text-gray-500">블로그</a>
                         </Link>
                     
+                        <Link href={"/write"} legacyBehavior>
+                            <a className="mr-5 hover:text-stone-900 dark:hover:text-gray-500">글 작성</a>
+                        </Link>
                     </nav>
                     <DarkModeToggleButton />
                 </div>
