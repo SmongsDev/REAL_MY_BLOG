@@ -12,20 +12,6 @@ interface Data{
     errorCode: number
 }
 
-const fetchWithBaseUrl = async (
-    baseUrl: string,
-    path: string,
-    options: RequestInit
-  ): Promise<any> => {
-    const response = await fetch(baseUrl + path, options);
-    if (!response.ok) {
-        throw new Error('데이터를 가져오는데 문제가 발생했습니다.');
-    }
-    const data = await response.json();
-    console.log("data", data);
-    return data;
-  };
-
 const useGithubData = () => {
     const [repo, setRepo] = useState<Data | null>(null);
   
