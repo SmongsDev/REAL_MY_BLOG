@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import styled from 'styled-components';
 import {
   EditorComposer,
   Editor,
@@ -19,6 +20,15 @@ import {
   Divider,
 } from 'verbum';
 
+const Container = styled.div`
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f8f8f8;
+  dark: background-color: gray;
+`;
+
 const NoteViewer: FC = () => {
   return (
     <>
@@ -28,8 +38,8 @@ const NoteViewer: FC = () => {
       </div>
       <label htmlFor="small-input" className="block mb-2 text-xm font-medium text-gray-900 dark:text-slate-200">Content</label>
       <EditorComposer>
-        <Editor hashtagsEnabled={true}>
-          <ToolbarPlugin defaultFontSize="20px">
+        <Editor hashtagsEnabled={true} >
+          <ToolbarPlugin defaultFontSize="10px" >
             <FontFamilyDropdown />
             <FontSizeDropdown />
             <Divider />
@@ -42,13 +52,13 @@ const NoteViewer: FC = () => {
             <BackgroundColorPicker />
             <TextFormatDropdown />
             <Divider />
-            <InsertDropdown enablePoll={true} />
+            <InsertDropdown enablePoll={true} enableImage={true} enableTable={true} />
             <Divider />
             <AlignDropdown />
           </ToolbarPlugin>
         </Editor>
       </EditorComposer>
-    </>
+    </ >
   );
 };
 

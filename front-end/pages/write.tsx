@@ -2,34 +2,51 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 // import useCreatePost from '@/hooks/useCreatePost';
 import dynamic from 'next/dynamic';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const NoteViewer = dynamic(() => import('@/components/NoteViewer'), {
     ssr: false
 })
 
 import { DEFAULT_URL, GITHUB_TOKEN } from "@/config";
+import JoditEditor from 'jodit-react';
+// https://www.youtube.com/watch?v=ahNdQaq0mHg & https://www.npmjs.com/package/react-quill
 
 const Write = () => {
-    const [ title, setTitle ] = useState('')
-    const [ content, setContent ] = useState('')
-    console.log(title);
-    console.log(content); // 들어오긴함 
-    const useCreatePost = async() => {
-        console.log("잘 왔나?", title)
-          
+    const editor = useRef(null);
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+  
+    const useCreatePost = async (title: string, content: string) => {
+        console.log("잘 왔나?", title);
+    
         if (!GITHUB_TOKEN) {
             console.log("토큰이 없어요!");
         } else {
             const requestHeaders: HeadersInit = new Headers();
             requestHeaders.set('X-Github-Token', GITHUB_TOKEN);
-            console.log("토큰 있음");
+            console.log("토큰 있음 : ", GITHUB_TOKEN);
     
-            const res = await fetch(`${DEFAULT_URL}/api/project/create`, { method: 'POST', headers: requestHeaders, body: JSON.stringify({title: title, content: content})})
-            const repo = await res.json();
-            console.log(repo);
+            try {
+                const res = await fetch(`${DEFAULT_URL}/api/project/create`, {
+                    method: 'POST',
+                    headers: requestHeaders,
+                    body: JSON.stringify({ title, content })
+                });
+        
+                if (!res.ok) {
+                    console.error('데이터를 보내는데 문제가 발생했습니다.');
+                    return;
+                }
+        
+                const data = await res.json();
+                console.log(data);
+            } catch (error) {
+                console.error('데이터를 가져오는데 문제가 발생했습니다.', error);
+            }
         }
     };
+
     return (
         <>
             <div className="bg-primary">
@@ -42,12 +59,17 @@ const Write = () => {
                             
                         </div>
                         <div className="mt-6 px-60">
+                            {/* <JoditEditor 
+                                ref={editor} 
+                                value={content} 
+                                onChange={newContent => setContent(newContent)} 
+                            /> */}
                             <NoteViewer />
                             <button className='container mt-5 text-white bg-gradient-to-br from-[#140974] to-[#1938c2] hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2' 
                             onClick={() => {
-                                setTitle(document.querySelector('#small-input')?.value)
-                                setContent(document.querySelector('.ContentEditable__root')?.innerHTML)
-                                useCreatePost
+                                setTitle(document.querySelector('#small-input')?.value || '');
+                                setContent(document.querySelector('.ContentEditable__root')?.innerHTML || '');
+                                useCreatePost(title, content);
                             }}>Submit</button>
                         </div>
                         

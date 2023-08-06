@@ -1,10 +1,33 @@
 import Link from "next/link";
 import DarkModeToggleButton from "./Dark-mode-toggle-button";
 import Script from "next/script";
+import Head from "next/head";
 
-export default function Header(){
+interface HeadProps {
+    title: string;
+    description?: string;
+    overrideTitle?: boolean;
+    structuredData?: string;
+  }
+
+export default function Header({
+    title,
+    description,
+    overrideTitle = false,
+    structuredData = '',
+  }: HeadProps){
+
+    const htmlTitle = overrideTitle
+      ? title
+      : `${title} — SMOGNS · Web Developer`;
+  
     return (
         <>  
+            <Head>
+                <title>{htmlTitle}</title>
+                <meta name="description" content="오늘도 빡코딩!" />
+                <link rel="icon" href="/favicon.ico" />
+            </Head> 
             <header className="text-gray-600 body-font">
                 <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
                     <Link href={"/"} legacyBehavior>
