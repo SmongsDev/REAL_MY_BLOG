@@ -1,10 +1,6 @@
 import Layout from "@/components/Layout";
-import Head from "next/head";
-import { TOKEN, DATABASE_ID } from "@/config";
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
-import ProjectItems from "@/components/projects/project-items";
 import Data from "@/interface/projectT.interface";
-import useGithubData from "@/hooks/useTest";
 
 import { DEFAULT_URL, GITHUB_TOKEN } from '@/config';
 import { useState, useEffect } from 'react';
@@ -17,6 +13,7 @@ interface DataType{
     },
     errorCode: number
 }
+
 interface ProjectsProps {
     repo: {
       data: {
@@ -26,7 +23,7 @@ interface ProjectsProps {
     };
   }
 
-const Projects = ({ repo }: ProjectsProps) => {
+function Projects({ repo }: ProjectsProps){
     const [projectList, setProjectList] = useState<JSX.Element[]>([]);
 
     useEffect(() => {
@@ -35,7 +32,7 @@ const Projects = ({ repo }: ProjectsProps) => {
             console.error('데이터를 가져오는데 문제가 발생했습니다.');
         } else {
             const projects = repo.data.content.map((aProject: Data, index: number) => (
-                <ProjectItems key={index} data={aProject} />
+                <ProjectsContents key={index} data={aProject} />
             ));
             setProjectList(projects);
         }
@@ -46,7 +43,6 @@ const Projects = ({ repo }: ProjectsProps) => {
             <Page
             frontMatter={{
                 title: 'Projects',
-                description: 'Showcase of my front-end related work.',
             }}
             >
             <div className="flex flex-col items-center min-h-screen px-5 mb-10">
@@ -68,7 +64,6 @@ const Projects = ({ repo }: ProjectsProps) => {
                         </div>
                     </div>                
                 </div>
-                <ProjectsContents />
             </Page>            
         </ Layout>
     )

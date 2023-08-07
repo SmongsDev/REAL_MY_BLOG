@@ -2,8 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'GoryeongStrawberry';
+    src: url('/fonts/GoryeongStrawberry.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .main-title {
-    @apply ml-3 text-xl dark:text-slate-50
+    @apply ml-3 text-xl dark:text-slate-50 
 }
 
 .bg-primary {

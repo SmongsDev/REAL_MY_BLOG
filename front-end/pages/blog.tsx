@@ -12,7 +12,6 @@ export default function Blog(){
                 <Page
                 frontMatter={{
                     title: 'Blog',
-                    description: 'Showcase of my front-end related work.',
                 }}
                 >
                     <section className="py-3">

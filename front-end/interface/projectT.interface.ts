@@ -4,6 +4,6 @@ export default interface Data{
   title: string,
   content: string,
   hits: number,
-  createDate: string,
+  createdAt: string,
   img?: string
 }
