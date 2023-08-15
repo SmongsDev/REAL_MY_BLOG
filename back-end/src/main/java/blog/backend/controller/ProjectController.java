@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import blog.backend.dto.ResponseDto;
 import blog.backend.dto.project.ProjectRequestDto;
+import blog.backend.dto.project.ProjectResponseDto;
 import blog.backend.entity.Project;
 import blog.backend.service.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -34,21 +35,22 @@ public class ProjectController {
     }
 
     @GetMapping("/project/{id}")
-    public ResponseDto<ProjectRequestDto> readProject(@PathVariable Long id){
+    public ResponseDto<ProjectResponseDto> readProject(@PathVariable Long id){
         Project data = projectService.getProject(id);
 
-        ProjectRequestDto dto = ProjectRequestDto.builder()
+        ProjectResponseDto dto = ProjectResponseDto.builder()
             .title(data.getTitle())
             .content(data.getContent())
             .createdAt(data.getCreatedAt())
             .hits(data.getHits())
             .build();
 
-        return new ResponseDto<ProjectRequestDto>(HttpStatus.OK.value(), dto);
+        return new ResponseDto<ProjectResponseDto>(HttpStatus.OK.value(), dto);
     }
 
     @PostMapping("/project/create")
-    public ResponseDto<String> createProject(@RequestBody ProjectRequestDto requestDto){
+    public ResponseDto<String> createProject(@RequestBody Project requestDto){
+        System.out.println("-----------------------" + requestDto);
         String data = projectService.createP(requestDto);
         return new ResponseDto<String>(HttpStatus.OK.value(), data);
     }

@@ -1,10 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer(){
     return (
         <>
             <footer className="body-font">
-                <div className="">
+                <div className="mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-6xl xl:px-0">
                     <div className="container px-5 py-6 mx-auto flex items-center sm:flex-row flex-col">
                     
                     <Link href={"/"} legacyBehavior>
@@ -12,6 +13,9 @@ export default function Footer(){
                             {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
                             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                             </svg> */}
+                            <div className="w-8 h-8">
+                                <Image src={"/img/footerLogo.png"} width={1000} height={1000} alt={"Footer Logo"} quality={100}/>
+                            </div>                            
                             <span className="ml-3 text-xl">SMONGS BLOG</span>
                         </a>
                     </Link>

@@ -2,9 +2,9 @@ import Layout from '@/components/Layout';
 import Page from '@/components/content-layouts/Page';
 import { DEFAULT_URL, GITHUB_TOKEN } from '@/config';
 import Data from '@/interface/projectT.interface';
+import { useRouter } from 'next/router';
 import { format, parseISO } from 'date-fns';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 
 interface DataType{
   data: Data,
@@ -14,13 +14,14 @@ interface ProjectDetailProps {
   repo: DataType;
 }
 
-const ProjectDetailPage = ({ repo }: ProjectDetailProps) => {
+const BlogDetailPage = ({ repo }: ProjectDetailProps) => {
   const router = useRouter();
   const { id } = router.query;
 
   const dateTimeString = repo.data.createdAt;
   const parsedDate = parseISO(dateTimeString);
   const formattedDate = format(parsedDate, 'MMM dd, yyyy');
+
 
   return (
     <>
@@ -129,4 +130,4 @@ export async function getServerSideProps(context: { query: { id: number; }; }) {
   }
 }
 
-export default ProjectDetailPage;
+export default BlogDetailPage;

@@ -38,22 +38,22 @@ function Projects({ repo }: ProjectsProps){
         }
     }, [repo]);
 
-    return (
+    return ( 
         <Layout>
             <Page
             frontMatter={{
                 title: 'Projects',
             }}
             >
-            <div className="flex flex-col items-center min-h-screen px-5 mb-10">
-                    <div className="container px-5 py-24 mx-auto">
+                <div className="flex flex-col items-center min-h-screen px-5 mb-10">
+                    <div className="container px-5 py-12 mx-auto">
                         <div className="flex flex-wrap w-full mb-20">
                             <div className="lg:w-1/2 w-full mb-6 lg:mb-0">
-                                <h1 className="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">
+                                <h1 className="text-xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-3xl sm:leading-10 md:text-5xl md:leading-14 pt-10">
                                     PROJECT : 
                                     <span className="pl-4 text-blue-500">{repo.data.content.length}</span>
                                 </h1>
-                                <div className="h-1 w-20 bg-indigo-500 rounded"></div>
+                                <div className="pb-2 h-2 w-24 bg-indigo-500 rounded"></div>
                             </div>
                             <p className="lg:w-1/2 w-full leading-relaxed text-gray-500">
                                 노력을 통해 우리는 새로운 가능성을 발견하고 더 나아갈 동력을 얻습니다. 어려운 시기나 역경이 찾아와도 노력을 게을리하지 않으면, 그 어려움을 극복하고 더 나은 상황을 만들어갈 수 있습니다. 노력을 아끼지 않는 사람들은 자신의 한계를 뛰어넘고, 도전을 두려워하지 않으며, 자신감을 키워나가는데 성공합니다. 노력은 늘 어김없이 보상을 가져다주는 충실한 친구이며, 우리가 가진 역량을 최대한 발휘할 수 있게 도와줍니다.
@@ -110,4 +110,4 @@ export const getServerSideProps: GetServerSideProps<ProjectsProps> = async () =>
     }
 };
   
-  export default Projects;
+export default Projects;

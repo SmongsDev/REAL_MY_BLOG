@@ -15,7 +15,9 @@
     "@types/react-dom": "18.2.7",
     "axios": "^1.4.0",
     "clsx": "^2.0.0",
+    "date-fns": "^2.30.0",
     "dayjs": "^1.11.9",
+    "dompurify": "^3.0.5",
     "dotenv": "^16.3.1",
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.10",
@@ -27,15 +29,18 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-lottie-player": "^1.5.4",
+    "react-quill": "^2.0.0",
     "styled-components": "^6.0.6",
     "swr": "^2.2.0",
     "typescript": "5.1.6",
     "verbum": "^0.5.0"
   },
   "devDependencies": {
+    "@types/dompurify": "^3.0.2",
     "@types/jquery": "^3.5.16",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.26",
     "tailwindcss": "^3.3.3"
-  }
+  },
+  "proxy": "https://javascriptkr-curly-space-rotary-phone-j76j6qjgwq72jj66-8080.app.github.dev"
 }

@@ -25,7 +25,7 @@ export default function ProjectItems({data}: P){
                 'md:flex-row md:gap-8 lg:gap-24'
             )}
             >
-                <ProjectPreview id={data.id}/>
+                {/* <ProjectPreview id={data.id}/> */}
             </div>
         </div>
         

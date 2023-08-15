@@ -1,7 +1,6 @@
 package blog.backend.service;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,8 +29,8 @@ public class ProjectService {
     }
 
     @Transactional
-    public String createP(ProjectRequestDto requestDto){
-        projectRepository.save(requestDto.toEntity());        
+    public String createP(Project requestDto){
+        projectRepository.save(requestDto);
         return "성공";
     }
 
