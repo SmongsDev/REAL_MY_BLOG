@@ -22,22 +22,26 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "PROJECT")
+@Table(name = "project")
 public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "project_id")
     private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(name = "title",nullable = false, length = 100)
     private String title;
 
     @Lob
+    @Column(name = "content", nullable = false)
     private String content;
 
     @ColumnDefault("0")
+    @Column(name = "hits")
     private int hits;
-    
+
     @CreationTimestamp
+    @Column(name = "createdAt")
     private Timestamp createdAt;
 }
