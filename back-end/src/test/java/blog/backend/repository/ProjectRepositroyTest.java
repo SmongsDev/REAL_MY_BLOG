@@ -4,7 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import blog.backend.entity.Project;
+import blog.backend.entity.Tag;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
@@ -14,13 +18,19 @@ public class ProjectRepositroyTest {
 
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private HashTagRepository tagRepository;
     
     @Test
     public void createProject(){
         IntStream.rangeClosed(1, 5).forEach(i -> {
+            Tag tag = Tag.builder("name" + i).build();
+            tagRepository.save(tag);
             Project project = Project.builder()
                 .title("test" + i)
                 .content("test_content" + i)
+                .tags(Collections.singletonList(tag))
                 .build();
             projectRepository.save(project);
         });

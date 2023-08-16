@@ -1,5 +1,8 @@
 package blog.backend.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -12,11 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import blog.backend.dto.ResponseDto;
 import blog.backend.dto.project.ProjectRequestDto;
 import blog.backend.dto.project.ProjectResponseDto;
+import blog.backend.dto.project.ProjectWithTagsDto;
 import blog.backend.entity.Project;
 import blog.backend.service.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -49,8 +54,7 @@ public class ProjectController {
     }
 
     @PostMapping("/project/create")
-    public ResponseDto<String> createProject(@RequestBody Project requestDto){
-        System.out.println("-----------------------" + requestDto);
+    public ResponseDto<String> createProject(@RequestBody ProjectRequestDto requestDto){
         String data = projectService.createP(requestDto);
         return new ResponseDto<String>(HttpStatus.OK.value(), data);
     }
@@ -65,5 +69,12 @@ public class ProjectController {
     public ResponseDto<String> updateProject(@PathVariable Long id, @RequestBody Project project){
         String data = projectService.updateP(id, project);
         return new ResponseDto<String>(HttpStatus.OK.value(), data);
+    }
+
+
+    @GetMapping("/projects/{tagName}")
+    public ResponseDto<List<ProjectWithTagsDto>> getProjectsByTagName(@PathVariable String tagName) {
+        List<ProjectWithTagsDto> data = projectService.getProjectsByTagName(tagName);
+        return new ResponseDto<List<ProjectWithTagsDto>>(HttpStatus.OK.value(), data);
     }
 }

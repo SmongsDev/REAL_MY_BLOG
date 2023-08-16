@@ -6,27 +6,27 @@ import { SetStateAction, useState } from 'react';
 
 import DOMPurify from 'dompurify';
 
-import 'react-quill/dist/quill.snow.css';
-const ReactQuill = dynamic(() => import('react-quill'), {
-    ssr: false
-})
+// import 'react-quill/dist/quill.snow.css';
+// const ReactQuill = dynamic(() => import('react-quill'), {
+//     ssr: false
+// })
 
 const DEFAULT_URL = "https://javascriptkr-curly-space-rotary-phone-j76j6qjgwq72jj66-8080.app.github.dev"
 
-const modules = {
-    toolbar: {
-        container: [
-          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-          [{ 'font': [] }],
-          [{ 'align': [] }],
-          ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-          [{ 'list': 'ordered' }, { 'list': 'bullet' }, 'link'],
-          [{ 'color': ['#000000', '#e60000', '#ff9900', '#ffff00', '#008a00', '#0066cc', '#9933ff', '#ffffff', '#facccc', '#ffebcc', '#ffffcc', '#cce8cc', '#cce0f5', '#ebd6ff', '#bbbbbb', '#f06666', '#ffc266', '#ffff66', '#66b966', '#66a3e0', '#c285ff', '#888888', '#a10000', '#b26b00', '#b2b200', '#006100', '#0047b2', '#6b24b2', '#444444', '#5c0000', '#663d00', '#666600', '#003700', '#002966', '#3d1466', 'custom-color'] }, { 'background': [] }],
-          ['image', 'video'],
-          ['clean']  
-        ],
-    }
-}
+// const modules = {
+//     toolbar: {
+//         container: [
+//           [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+//           [{ 'font': [] }],
+//           [{ 'align': [] }],
+//           ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+//           [{ 'list': 'ordered' }, { 'list': 'bullet' }, 'link'],
+//           [{ 'color': ['#000000', '#e60000', '#ff9900', '#ffff00', '#008a00', '#0066cc', '#9933ff', '#ffffff', '#facccc', '#ffebcc', '#ffffcc', '#cce8cc', '#cce0f5', '#ebd6ff', '#bbbbbb', '#f06666', '#ffc266', '#ffff66', '#66b966', '#66a3e0', '#c285ff', '#888888', '#a10000', '#b26b00', '#b2b200', '#006100', '#0047b2', '#6b24b2', '#444444', '#5c0000', '#663d00', '#666600', '#003700', '#002966', '#3d1466', 'custom-color'] }, { 'background': [] }],
+//           ['image', 'video'],
+//           ['clean']  
+//         ],
+//     }
+// }
 
 function Write() {
     const [title, setTitle] = useState('');    
@@ -37,10 +37,14 @@ function Write() {
         setTitle(event.target.value)
     }
 
-    const onChangeContents = (contents: string) => {
-        // console.log(contents);
-        setValue(contents);
+    const onChangeValue = (event: { target: {value: SetStateAction<string>;};}) =>{
+        setValue(event.target.value);
     }
+
+    // const onChangeContents = (contents: string) => {
+    //     // console.log(contents);
+    //     setValue(contents);
+    // }
     
     const useCreatePost = async () => {
         console.log("요청됨", title, '+', value);
@@ -98,7 +102,12 @@ function Write() {
                                 </div>
                                 <label htmlFor="small-input" className="block mb-2 text-xm font-medium text-gray-900 dark:text-slate-200">Content</label>
                                 <div className=''>
-                                    <ReactQuill theme="snow" value={value} onChange={onChangeContents} modules={modules} />
+                                    
+                                <div className="mt-6 mb-4">
+                                    <label htmlFor="small-input" className="block mb-2 text-xm font-medium text-gray-900 dark:text-slate-200">Content</label>
+                                    <input type="text" id="small-input" value={value} onChange={onChangeValue} className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-slate-200 dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                                </div>
+                                    {/* <ReactQuill theme="snow" value={value} onChange={onChangeContents} modules={modules} /> */}
 
                                     {/* 적용 안됨 */}
                                     {/* {typeof window !== 'undefined' ? (

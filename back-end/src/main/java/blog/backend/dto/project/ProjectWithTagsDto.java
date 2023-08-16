@@ -4,24 +4,17 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class ProjectResponseDto {
-    
+@NoArgsConstructor
+public class ProjectWithTagsDto {
+    private Long id;
     private String title;
-
     private String content;
-
+    private List<String> tags;
     private int hits;
-
-    private List<String> hashTag;
-
     private Timestamp createdAt;
-
 }
