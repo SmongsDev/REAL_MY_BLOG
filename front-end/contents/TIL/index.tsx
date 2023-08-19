@@ -1,11 +1,15 @@
 import Data from "@/interface/projectT.interface";
 import Link from "next/link";
 import { format, parseISO } from 'date-fns';
+import TagType from "@/interface/projectT.interface";
+import Tag from "@/components/Tag";
 
 function TILContents({ content }: {content: Data}) {
   const dateTimeString = content.createdAt;
   const parsedDate = parseISO(dateTimeString);
   const formattedDate = format(parsedDate, 'MMM dd, yyyy');
+
+  const tags = content.tags?.map((tag: TagType) => (<Tag key={tag.id} text={tag} />))
   
   return (
     <>
@@ -19,13 +23,11 @@ function TILContents({ content }: {content: Data}) {
           </dl>
           <div className="space-y-3 xl:col-span-3">
               <div>
-                <h3 className="text-2xl font-bold leading-8 tracking-tight">
+                <h2 className="text-3xl font-bold leading-8 tracking-tight">
                   {content.title}
-                </h3>
-                <div className="flex flex-wrap">
-                  {/* {tags.map((tag) => (
-                    <Tag key={tag} text={tag} />
-                  ))} */}
+                </h2>
+                <div className="flex flex-wrap my-1">
+                  {tags}
                 </div>
               </div>
               <div className="prose max-w-none text-gray-500 dark:text-gray-400">

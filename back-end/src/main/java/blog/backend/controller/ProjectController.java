@@ -1,7 +1,6 @@
 package blog.backend.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import blog.backend.dto.ResponseDto;
@@ -66,8 +64,8 @@ public class ProjectController {
     }
 
     @PutMapping("/project/{id}")
-    public ResponseDto<String> updateProject(@PathVariable Long id, @RequestBody Project project){
-        String data = projectService.updateP(id, project);
+    public ResponseDto<String> updateProject(@PathVariable Long id, @RequestBody ProjectRequestDto requestDto){
+        String data = projectService.updateP(id, requestDto);
         return new ResponseDto<String>(HttpStatus.OK.value(), data);
     }
 

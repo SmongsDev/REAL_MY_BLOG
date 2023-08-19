@@ -1,3 +1,7 @@
+export default interface TagType {
+  id: number;
+  name: string;
+}
 
 export default interface Data{
   id: number,
@@ -6,4 +10,5 @@ export default interface Data{
   hits: number,
   createdAt: string,
   img?: string
+  tags?: TagType[];
 }

@@ -56,4 +56,8 @@ public class Project {
     @CreationTimestamp
     @Column(name = "createdAt")
     private Timestamp createdAt;
+
+    public void increaseCount(){
+        this.hits = hits + 1;
+    }
 }

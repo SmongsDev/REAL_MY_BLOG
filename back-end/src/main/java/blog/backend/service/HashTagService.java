@@ -2,15 +2,12 @@ package blog.backend.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import blog.backend.entity.Project;
 import blog.backend.entity.Tag;
 import blog.backend.repository.HashTagRepository;
-import blog.backend.repository.ProjectHashTagRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -29,30 +26,14 @@ public class HashTagService {
         return tagRepository.findAll();
     }
 
-    // @Transactional
-    // public void createTags(Project data){
-    //     System.out.println("-----------------");
-    //     List<Tag> tags = new ArrayList<>();
-    //     for (Tag tag2 : data.getTags()) {
-    //         tags.add(tag2);
-    //     }
-
-    //     saveTag(tags, data.getId());
-    // }
-
-    // public void saveTag(List<Tag> tagList, Long projectId) {
-    //     for (Tag tagName : tagList) {
-    //         Tag findResult = hashTagRepository.findTagByName(tagName.getName());
-
-    //         // 등록된 태그가 아니라면 태그부터 추가
-    //         if (findResult == null) {
-    //             hashTagRepository.save(tagName);
-    //         }
-
-    //         Tag findTag = hashTagRepository.findTagByName(tagName.getName());
-    //         hashTagRepository.addTagCount(findTag.getId());
-    //         projectHashTagRepository.saveTagProject(findTag.getId(), projectId);
-    //     }
-    // }
-
+    @Transactional
+    public List<Tag> updateOrCreateTags(List<String> tagNames) {
+        List<Tag> updatedTags = new ArrayList<>();
+        for (String tagName : tagNames) {
+            Tag tag = tagRepository.findByName(tagName)
+                .orElseGet(() -> tagRepository.save(Tag.builder().name(tagName).build()));
+            updatedTags.add(tag);
+        }
+        return updatedTags;
+    }
 }

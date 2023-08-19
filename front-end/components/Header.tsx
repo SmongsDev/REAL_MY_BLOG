@@ -28,7 +28,7 @@ export default function Header({
             <Head>
                 <title>{htmlTitle}</title>
                 <meta name="description" content="오늘도 빡코딩!" />
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" href="./img/footerLogo.png" />
             </Head> 
             <header className="text-gray-600 body-font">
                 <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">

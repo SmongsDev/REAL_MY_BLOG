@@ -34,23 +34,15 @@ public class Tag{
     @Column(name = "tag_count")
     private int cnt;
 
-    public static TagBuilder builder(String name) {
-        return new TagBuilder().name(name);
+    public void name(String name) {
+        this.name = name;
     }
 
-    // TagBuilder 클래스 정의
-    public static class TagBuilder {
-        private String name;
-
-        public TagBuilder name(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Tag build() {
-            Tag tag = new Tag();
-            tag.setName(name);
-            return tag;
-        }
+    public void decreaseCount() {
+        this.cnt -= 1;
+    }
+    
+    public void increaseCount() {
+        this.cnt -= 1;
     }
 }

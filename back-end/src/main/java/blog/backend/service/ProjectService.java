@@ -33,8 +33,9 @@ public class ProjectService {
 
     @Transactional
     public Project getProject(Long id){
-        projectRepository.updateHits(id);
+        // projectRepository.updateHits(id);
         Project project = projectRepository.findById(id).get();
+        project.increaseCount();
         return project;
     }
 
@@ -48,8 +49,9 @@ public class ProjectService {
                     return existingTag;
                 })
                 .orElseGet(() -> {
-                    Tag newTag = Tag.builder(tagName).build();
+                    Tag newTag = Tag.builder().name(tagName).build();
                     newTag.setCnt(1);
+                    tagRepository.save(newTag);
                     return newTag;
             });
             tags.add(tag);
@@ -65,19 +67,42 @@ public class ProjectService {
 
     @Transactional
     public String deleteP(Long id){
-        projectRepository.deleteById(id);
+        Project project = projectRepository.findById(id)
+            .orElseThrow(()->{
+                return new IllegalArgumentException("글 찾기 실패 : 아이디를 찾을 수 없습니다.");
+            });
+
+        // 게시글에 연결된 태그들도 삭제
+        for (Tag tag : project.getTags()) {
+            tag.decreaseCount();
+        }
+
+        projectRepository.delete(project);
         return "삭제 성공";
     }
 
     @Transactional
-    public String updateP(Long id, Project project){
-        Project findProject = projectRepository.findById(id)
+    public String updateP(Long id, ProjectRequestDto requestDto){
+        Project project = projectRepository.findById(id)
         .orElseThrow(()->{
             return new IllegalArgumentException("글 찾기 실패 : 아이디를 찾을 수 없습니다.");
         });
+        List<Tag> updatedTags = hashTagService.updateOrCreateTags(requestDto.getTags());
 
-        findProject.setTitle(project.getTitle());
-        findProject.setContent(project.getContent());
+        for (Tag tag : project.getTags()) {
+            if (!updatedTags.contains(tag)) {
+                tag.decreaseCount();
+            }
+        }
+        for (Tag tag : updatedTags) {
+            if (!project.getTags().contains(tag)) {
+                tag.increaseCount();
+            }
+        }
+
+        project.setTitle(requestDto.getTitle());
+        project.setContent(requestDto.getContent());
+        project.setTags(updatedTags);
         return "수정 성공";
     }
 

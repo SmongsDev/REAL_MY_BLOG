@@ -25,7 +25,7 @@ public class ProjectRepositroyTest {
     @Test
     public void createProject(){
         IntStream.rangeClosed(1, 5).forEach(i -> {
-            Tag tag = Tag.builder("name" + i).build();
+            Tag tag = Tag.builder().name("name" + i).build();
             tagRepository.save(tag);
             Project project = Project.builder()
                 .title("test" + i)
