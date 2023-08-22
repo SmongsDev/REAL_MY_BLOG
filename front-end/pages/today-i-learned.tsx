@@ -14,7 +14,7 @@ interface DataType{
   errorCode: number
 }
 
-interface ProjectsProps {
+interface TILListProps {
   repo: {
     data: {
       content: Data[];
@@ -23,18 +23,18 @@ interface ProjectsProps {
   };
 }
 
-function TIL({ repo }: ProjectsProps) {
-  const [projectList, setProjectList] = useState<JSX.Element[]>([]);
+function TIL({ repo }: TILListProps) {
+  const [TILList, setTILList] = useState<JSX.Element[]>([]);
 
   useEffect(() => {
       console.log(repo.data);
       if (repo.errorCode != 200) {
         console.error('데이터를 가져오는데 문제가 발생했습니다.');
       } else {
-        const projects = repo.data.content.map((aProject: Data, index: number) => (
-            <TILContents key={index} content={aProject} />
+        const TILs = repo.data.content.map((aTIL: Data, index: number) => (
+            <TILContents key={index} content={aTIL} />
         ));
-        setProjectList(projects);
+        setTILList(TILs);
       }
   }, [repo]);
   
@@ -53,7 +53,7 @@ function TIL({ repo }: ProjectsProps) {
             }}
           />
           <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-            {projectList}
+            {TILList}
           </ul>
         </div>
       </Page>
@@ -62,7 +62,7 @@ function TIL({ repo }: ProjectsProps) {
 }
 
 
-export const getServerSideProps: GetServerSideProps<ProjectsProps> = async () => {
+export const getServerSideProps: GetServerSideProps<TILListProps> = async () => {
   try {
       const requestHeaders: HeadersInit = new Headers();
       if (GITHUB_TOKEN) {

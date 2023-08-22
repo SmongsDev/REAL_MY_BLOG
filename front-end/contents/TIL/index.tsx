@@ -26,7 +26,7 @@ function TILContents({ content }: {content: Data}) {
                 <h2 className="text-3xl font-bold leading-8 tracking-tight">
                   {content.title}
                 </h2>
-                <div className="flex flex-wrap my-1">
+                <div className="flex flex-wrap">
                   {tags}
                 </div>
               </div>

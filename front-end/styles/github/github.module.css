@@ -1,41 +1,41 @@
-@import '../../scss/mixins';
+/* styles/github/github.module.css */
 
+/* 주요 변경 사항:
+1. 믹스인(@mixin)은 CSS에서 직접 사용할 수 없으므로 삭제합니다.
+2. 변수($mobile)는 Tailwind CSS의 클래스로 대체합니다.
+3. 미디어 쿼리(@media)도 Tailwind CSS의 클래스로 대체합니다.
+*/
 
 .section {
 	background: var(--background-dim);
-    border-bottom: 1px solid var(--primary-dark);
+	border-bottom: 1px solid var(--primary-dark);
 }
-
+  
 .container {
 	display: flex;
 	flex-direction: column;
 	gap: 2rem;
 }
-
+  
 .profile {
 	display: flex;
 	flex-direction: row;
 	gap: 2rem;
 
-	img {
+	.imgC {
 		border-radius: 99rem;
 	}
-
-	a {
-		font-size: .875rem;
-		font-weight: 400;
-	}
 }
-
-.projects {
+  
+  .projects {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	gap: 1rem;
 	row-gap: 1rem;
-}
-
-.project {
+  }
+  
+  .project {
 	display: flex;
 	flex-direction: column;
 	flex-basis: calc(100% / 2 - 1rem);
@@ -46,40 +46,40 @@
 	border-radius: 1rem;
 	padding: 1rem;
 	overflow: hidden;
-
+  
 	.header {
-		display: flex;
-		flex-direction: row;
-		justify-content: space-between;
-	
-		.homepage {
-			font-size: .8rem;
-		}
+	  display: flex;
+	  flex-direction: row;
+	  justify-content: space-between;
+  
+	  .homepage {
+		font-size: .8rem;
+	  }
 	}
-
+  
 	.details {
+	  display: flex;
+	  flex-direction: row;
+	  align-items: flex-end;
+	  gap: 3rem;
+  
+	  .pC {
+		line-height: 1;
+	  }
+  
+	  .pushedAt {
+		flex-grow: 1;
+		font-family: var(--font-accent);
+		font-size: .6rem;
 		display: flex;
-		flex-direction: row;
+		justify-content: flex-end;
 		align-items: flex-end;
-		gap: 3rem;
-	
-		p {
-			line-height: 1;
-		}
-	
-		.pushedAt {
-			flex-grow: 1;
-			font-family: var(--font-accent);
-			font-size: .6rem;
-			display: flex;
-			justify-content: flex-end;
-			align-items: flex-end;
-			line-height: 1;
-		}
+		line-height: 1;
+	  }
 	}
-}
-
-.topicsContainer {
+  }
+  
+  .topicsContainer {
 	position: relative;
 	display: flex;
 	flex-direction: row;
@@ -89,18 +89,9 @@
 	padding: 1rem;
 	gap: .5rem;
 	background: var(--background-dim);
-
-	&:before {
-		content: '';
-		border-top: 1px solid var(--primary-dark);
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-	}
-}
-
-.topics {
+  }
+  
+  .topics {
 	margin: auto 0;
 	display: flex;
 	flex-direction: row;
@@ -115,48 +106,19 @@
 	border-radius: 99rem;
 	border: 1px solid var(--primary-dark);
 	background: var(--primary-dark);
-}
-
-.descriptionContainer {
+  }
+  
+  .descriptionContainer {
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
-
+  
 	.description {
-		font-size: .75rem;
-		font-family: var(--font-accent);
+	  font-size: .75rem;
+	  font-family: var(--font-accent);
 	}
-}
-
-
-
-@include media($max: $mobile) {
-
-
-	.project {
-		flex-basis: 100%;
-
-		.header {
-			.homepage {
-				display: none;
-			}
-		}
-
-		.details {
-			justify-content: space-between;
-			gap: 0;
-			
-			p {
-				font-size: .875rem;
-			}
-	
-			.pushedAt {
-				flex-grow: 0;
-			}
-		}
-
-		.topics {
-			font-size: .6rem;
-		}
-	}	
-}
+  }
+  
+  /* 미디어 쿼리 부분은 Tailwind CSS 클래스로 대체하거나 직접 작성해야 합니다. */
+  /* 예: md:max-w-screen-md, lg:gap-0, sm:text-xs 등을 사용하여 작성하십시오. */
+  

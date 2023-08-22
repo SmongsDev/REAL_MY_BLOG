@@ -16,3 +16,5 @@ spring:
         # show-sql: true
     # profiles:
     #     include: security
+    main:
+        allow-bean-definition-overriding: true

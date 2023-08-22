@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import { SetStateAction, useState } from 'react';
 
 import DOMPurify from 'dompurify';
+import { TagInput } from '@/components/TagInput';
 
 // import 'react-quill/dist/quill.snow.css';
 // const ReactQuill = dynamic(() => import('react-quill'), {
@@ -32,6 +33,12 @@ function Write() {
     const [title, setTitle] = useState('');    
     const [value, setValue] = useState('');
 
+    const [tags, setTags] = useState<string[]>([]);
+
+    const handleAddTag = (newTag:string) => {
+        setTags([...tags, newTag]);
+    };
+
     const onChangeTitle = (event: { target: { value: SetStateAction<string>; }; }) => {
         // console.log(event.target.value);
         setTitle(event.target.value)
@@ -58,7 +65,7 @@ function Write() {
             console.log("토큰 있음 : ", GITHUB_TOKEN);
         }
         requestHeaders.set('Content-Type', 'application/json')
-        const body = JSON.stringify({ title, value })
+        const body = JSON.stringify({ title, value, tags })
         console.log(body)
 
         try {
@@ -100,13 +107,16 @@ function Write() {
                                     <label htmlFor="small-input" className="block mb-2 text-xm font-medium text-gray-900 dark:text-slate-200">Title</label>
                                     <input type="text" id="small-input" value={title} onChange={onChangeTitle} className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-slate-200 dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
                                 </div>
-                                <label htmlFor="small-input" className="block mb-2 text-xm font-medium text-gray-900 dark:text-slate-200">Content</label>
+                                <div>
+                                    <label htmlFor="small-input" className="block mb-2 text-xm font-medium text-gray-900 dark:text-slate-200">TAGS</label>
+                                    <TagInput onAddTag={handleAddTag} tags={tags}/>
+                                </div>
                                 <div className=''>
                                     
-                                <div className="mt-6 mb-4">
-                                    <label htmlFor="small-input" className="block mb-2 text-xm font-medium text-gray-900 dark:text-slate-200">Content</label>
-                                    <input type="text" id="small-input" value={value} onChange={onChangeValue} className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-slate-200 dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-                                </div>
+                                    <div className="mt-6 mb-4">
+                                        <label htmlFor="small-input" className="block mb-2 text-xm font-medium text-gray-900 dark:text-slate-200">Content</label>
+                                        <input type="text" id="small-input" value={value} onChange={onChangeValue} className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-slate-200 dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                                    </div>
                                     {/* <ReactQuill theme="snow" value={value} onChange={onChangeContents} modules={modules} /> */}
 
                                     {/* 적용 안됨 */}
