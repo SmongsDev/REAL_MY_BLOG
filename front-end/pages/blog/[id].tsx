@@ -6,6 +6,8 @@ import { useRouter } from 'next/router';
 import { format, parseISO } from 'date-fns';
 import Image from 'next/image';
 
+import styles from '@/styles/content.module.css';
+
 interface DataType{
   data: Data,
   errorCode: number
@@ -78,6 +80,12 @@ const BlogDetailPage = ({ repo }: ProjectDetailProps) => {
                   <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
                     <div className="prose max-w-none pt-10 pb-8 dark:prose-dark">
                       {repo.data.content}
+                    </div>
+                    <div className='test'>
+                      test
+                      <p>
+                        test
+                      </p>
                     </div>
                   </div>
                 </div>

@@ -24,6 +24,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 // @EnableWebFluxSecurity
 // @EnableReactiveMethodSecurity
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
     // @Bean
@@ -66,38 +67,38 @@ public class SecurityConfig {
     // }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .cors().configurationSource(corsConfigurationSource())
+            .and()
             .csrf().disable()
-            .cors().disable()
-            .httpBasic().disable()
-            .build();
-        // configure HTTP security...
-     
+            .httpBasic().disable();
+        return http.build();
     }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://javascriptkr-curly-space-rotary-phone-j76j6qjgwq72jj66-3000.app.github.dev"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
-		configuration.setAllowedHeaders(Arrays.asList("*"));
-		configuration.setAllowCredentials(true);
+        configuration.setAllowedOrigins(Arrays.asList("*")); // 허용할 Origin 설정
+        configuration.setAllowedMethods(Arrays.asList("*")); // 허용할 HTTP 메서드 설정
+        configuration.setAllowedHeaders(Arrays.asList("*")); // 허용할 헤더 설정
+        configuration.setAllowCredentials(true); // 인증 정보를 포함할 수 있도록 설정
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-    
-    // private String FRONT_URL = "https://javascriptkr-curly-space-rotary-phone-j76j6qjgwq72jj66-3000.app.github.dev";
 
-    // @Override
-    // public void addCorsMappings(CorsRegistry registry) {
-    //     registry.addMapping("/**")
-    //         .allowedOrigins(FRONT_URL)
-    //         .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD", "TRACE")
-    //         .allowedHeaders("*")
-    //         .allowCredentials(true)
-    //         .maxAge(3600);
+    // @Bean
+    // public CorsFilter corsFilter() {
+    //     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    //     CorsConfiguration config = new CorsConfiguration();
+    //     config.setAllowCredentials(true);
+    //     config.addAllowedOrigin("*");
+    //     config.addAllowedHeader("*");
+    //     config.addAllowedMethod("*");
+    //     source.registerCorsConfiguration("/**", config);
+    //     return new CorsFilter(source);
     // }
+    
 }

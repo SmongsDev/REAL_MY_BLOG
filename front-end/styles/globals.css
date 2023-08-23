@@ -8,6 +8,15 @@
     font-weight: normal;
     font-style: normal;
 }
+.test {
+    @apply text-blue-500 dark:text-slate-100
+
+}
+.test p:nth-child(1){
+    @apply text-green-500 dark:text-sky-300
+}
+
+
 
 .main-title {
     @apply ml-3 text-xl dark:text-slate-50 
@@ -54,4 +63,3 @@ a {
 p {
     @apply text-slate-500 dark:text-slate-400 
 }
-

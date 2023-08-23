@@ -1,16 +1,20 @@
 import Header from '@/components/Header';
 import dynamic from 'next/dynamic';
-import { GITHUB_TOKEN } from "@/config";
+// import { GITHUB_TOKEN, DEFAULT_URL } from "@/config";
 import Footer from '@/components/Footer';
 import { SetStateAction, useState } from 'react';
 
 import DOMPurify from 'dompurify';
 import { TagInput } from '@/components/TagInput';
 
+import { NextResponse } from 'next/server'
+
 // import 'react-quill/dist/quill.snow.css';
 // const ReactQuill = dynamic(() => import('react-quill'), {
 //     ssr: false
 // })
+
+const GITHUB_TOKEN = "ghu_fRm12JfgIh7pya2KtmwBBn9SLrcO4p4STabe"
 
 const DEFAULT_URL = "https://javascriptkr-curly-space-rotary-phone-j76j6qjgwq72jj66-8080.app.github.dev"
 
@@ -29,6 +33,35 @@ const DEFAULT_URL = "https://javascriptkr-curly-space-rotary-phone-j76j6qjgwq72j
 //     }
 // }
 
+// export async function createPost(title, value, tags) {
+//     const requestHeaders: HeadersInit = new Headers();
+//     if (!GITHUB_TOKEN) {
+//         throw new Error("토큰이 없어요!");
+//     }
+//     else{
+//         requestHeaders.set('X-Github-Token', GITHUB_TOKEN);
+//         console.log("토큰 있음 : ", GITHUB_TOKEN);
+//     }
+//     try {
+    
+//         const response = await fetch(`${DEFAULT_URL}/api/project/create`, {
+//             method: 'POST',
+//             headers: requestHeaders,
+//             body: JSON.stringify({ title, value, tags }),
+//         });
+    
+//         if (!response.ok) {
+//             throw new Error("데이터를 보내는데 문제가 발생했습니다.");
+//         }
+    
+//         const data = await response.json();
+//         return data;
+//     } catch (e) {
+//         console.error('오류 발생: ', e);
+//         throw e;
+//     }
+// }
+
 function Write() {
     const [title, setTitle] = useState('');    
     const [value, setValue] = useState('');
@@ -39,20 +72,23 @@ function Write() {
         setTags([...tags, newTag]);
     };
 
-    const onChangeTitle = (event: { target: { value: SetStateAction<string>; }; }) => {
-        // console.log(event.target.value);
+    const onChangeTitle = (event: { target: { value: SetStateAction<string>}}) => {
         setTitle(event.target.value)
     }
 
-    const onChangeValue = (event: { target: {value: SetStateAction<string>;};}) =>{
+    const onChangeValue = (event: { target: {value: SetStateAction<string>}}) =>{
         setValue(event.target.value);
     }
 
-    // const onChangeContents = (contents: string) => {
-    //     // console.log(contents);
-    //     setValue(contents);
-    // }
-    
+    // const handleSubmit = async () => { 
+    //     try {
+    //         const data = await createPost(title, value, tags);
+    //         console.log('서버 응답 데이터: ', data);
+    //     } catch (error) {
+    //         console.log("오류", error)
+    //     }
+    // };
+
     const useCreatePost = async () => {
         console.log("요청됨", title, '+', value);
 
@@ -64,16 +100,30 @@ function Write() {
             requestHeaders.set('X-Github-Token', GITHUB_TOKEN);
             console.log("토큰 있음 : ", GITHUB_TOKEN);
         }
-        requestHeaders.set('Content-Type', 'application/json')
+        requestHeaders.append('Content-Type', 'application/json')
+        requestHeaders.append('Access-Control-Allow-Origin', '*')
+        requestHeaders.append('Access-Control-Allow-Credentials', 'true')
+        requestHeaders.append('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Amz-Date, Authorization, X-Api-Key, X-Amz-Security-Token, locale')
+        requestHeaders.append('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        requestHeaders.forEach((value, name) => {
+            console.log(`${name}: ${value}`);
+        });
         const body = JSON.stringify({ title, value, tags })
-        console.log(body)
+        // console.log(body)
 
         try {
-            console.log("여기까지 옴")
             const res = await fetch(`${DEFAULT_URL}/api/project/create`, {
                 method: 'POST',
-                // mode: 'cors',
-                headers: requestHeaders,
+                // mode: 'no-cors',
+                headers: requestHeaders
+                // {
+                //     'Access-Control-Allow-Origin': '*',
+                //     'Access-Control-Allow-Credentials': 'true',
+                //     'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Amz-Date, Authorization, X-Api-Key, X-Amz-Security-Token, locale',
+                //     'Access-Control-Allow-Methods': 'GET, POST',
+                //     'X-Github-Token': "ghu_fRm12JfgIh7pya2KtmwBBn9SLrcO4p4STabe"
+                // }               
+                ,
                 body: body
             });
 
@@ -130,9 +180,11 @@ function Write() {
                                     
                                 </div>
                                 <button className='container mt-5 text-white bg-gradient-to-br from-[#140974] to-[#1938c2] hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2' 
-                                    onClick={() => {
-                                        useCreatePost()
-                                    }}
+                                    // onClick={() => {
+                                    //     // useCreatePost()
+                                    //     handleSubmit
+                                    // }}
+                                    onClick={useCreatePost}
                                 >Submit</button>
                             </div>
                             
@@ -144,5 +196,5 @@ function Write() {
         </>
     )
 }
-
+ 
 export default Write;

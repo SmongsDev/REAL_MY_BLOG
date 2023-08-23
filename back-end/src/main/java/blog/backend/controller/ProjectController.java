@@ -25,10 +25,12 @@ import blog.backend.entity.Project;
 import blog.backend.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 
-@CrossOrigin(origins = "https://javascriptkr-curly-space-rotary-phone-j76j6qjgwq72jj66-3000.app.github.dev", maxAge = 3600)
+// @CrossOrigin(origins = "https://javascriptkr-curly-space-rotary-phone-j76j6qjgwq72jj66-3000.app.github.dev", maxAge = 3600)
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class ProjectController {
 
     private final ProjectService projectService;
@@ -54,6 +56,7 @@ public class ProjectController {
     }
     
     @PostMapping("/project/create")
+    @CrossOrigin("*")
     public ResponseDto<String> createProject(@RequestBody ProjectRequestDto requestDto){
         String data = projectService.createP(requestDto);
         return new ResponseDto<String>(HttpStatus.OK.value(), data);
