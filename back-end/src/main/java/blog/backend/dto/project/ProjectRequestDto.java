@@ -20,10 +20,12 @@ public class ProjectRequestDto {
 
     private List<String> tags;
 
-    public Project toEntity(){
-        return Project.builder()
-            .title(title)
-            .content(content)
-            .build();
-    }
+    private String category;
+
+    // public Project toEntity(){
+    //     return Project.builder()
+    //         .title(title)
+    //         .content(content)
+    //         .build();
+    // }
 }

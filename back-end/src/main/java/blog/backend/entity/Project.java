@@ -47,10 +47,13 @@ public class Project {
     @Column(name = "hits")
     private int hits;
 
+    @Column(name = "category")
+    private String category;
+
     @ManyToMany
     @JoinTable(name = "tag_map",
-               joinColumns = @JoinColumn(name = "project_id"),
-               inverseJoinColumns = @JoinColumn(name = "tag_id"))
+        joinColumns = @JoinColumn(name = "project_id"),
+        inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags = new ArrayList<>();
 
     @CreationTimestamp

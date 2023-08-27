@@ -6,9 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import blog.backend.entity.Project;
 import blog.backend.entity.Tag;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
@@ -31,6 +29,7 @@ public class ProjectRepositroyTest {
                 .title("test" + i)
                 .content("test_content" + i)
                 .tags(Collections.singletonList(tag))
+                .category("TIL")
                 .build();
             projectRepository.save(project);
         });

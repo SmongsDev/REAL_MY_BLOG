@@ -62,7 +62,7 @@ export const getServerSideProps: GetServerSideProps<BlogsProps> = async () => {
         } else {
             console.log("토큰이 없어요!");
         }
-        const res = await fetch(`${DEFAULT_URL}/api/projects?size=8`, {
+        const res = await fetch(`${DEFAULT_URL}/api/blog/projects?size=8`, {
             method: 'GET',
             headers: requestHeaders,
         });

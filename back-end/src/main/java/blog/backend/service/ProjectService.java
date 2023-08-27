@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import blog.backend.dto.project.ProjectRequestDto;
+import blog.backend.dto.project.ProjectResponseDto;
 import blog.backend.dto.project.ProjectWithTagsDto;
 import blog.backend.entity.Project;
 import blog.backend.entity.Tag;
@@ -26,10 +27,16 @@ public class ProjectService {
     private final HashTagRepository tagRepository;
     // private final ProjectHashTagRepository projectHashTagRepository;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<Project> projectList(Pageable pageable){
         return projectRepository.findAll(pageable);
     }    
+    
+    @Transactional(readOnly = true)
+    public Page<ProjectResponseDto> projectListByCategory(Pageable pageable, String category){
+        Page<Project> projects = projectRepository.findAllByCategory(category, pageable);
+        return projects.map(ProjectResponseDto::new);
+    }
 
     @Transactional
     public Project getProject(Long id){
@@ -60,6 +67,7 @@ public class ProjectService {
                 .title(requestDto.getTitle())
                 .content(requestDto.getContent())
                 .tags(tags)
+                .category(requestDto.getCategory())
                 .build();
         projectRepository.save(project);
         return "성공";
@@ -103,6 +111,7 @@ public class ProjectService {
         project.setTitle(requestDto.getTitle());
         project.setContent(requestDto.getContent());
         project.setTags(updatedTags);
+        project.setCategory(requestDto.getCategory());
         return "수정 성공";
     }
 
@@ -120,8 +129,9 @@ public class ProjectService {
                 project.getId(),
                 project.getTitle(),
                 project.getContent(),
-                tagNames,
                 project.getHits(),
+                project.getCategory(),
+                tagNames,
                 project.getCreatedAt()
             );
             

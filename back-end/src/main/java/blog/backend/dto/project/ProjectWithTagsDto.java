@@ -14,7 +14,8 @@ public class ProjectWithTagsDto {
     private Long id;
     private String title;
     private String content;
-    private List<String> tags;
     private int hits;
+    private String category;
+    private List<String> tags;
     private Timestamp createdAt;
 }

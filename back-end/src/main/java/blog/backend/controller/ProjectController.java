@@ -38,7 +38,13 @@ public class ProjectController {
     @GetMapping("/projects")
     public ResponseDto<Page<Project>> allProject(@PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 3) Pageable pageable){
         Page<Project> data = projectService.projectList(pageable);
-        return new ResponseDto<Page<Project>>(HttpStatus.OK.value(), data);
+        return new ResponseDto<>(HttpStatus.OK.value(), data);
+    }
+
+    @GetMapping("/{category}/projects")
+    public ResponseDto<Page<ProjectResponseDto>> allProjectsByCategory(@PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 3) Pageable pageable, @PathVariable String category){
+        Page<ProjectResponseDto> data = projectService.projectListByCategory(pageable, category);
+        return new ResponseDto<>(HttpStatus.OK.value(), data);
     }
 
     @GetMapping("/project/{id}")
@@ -50,34 +56,35 @@ public class ProjectController {
             .content(data.getContent())
             .createdAt(data.getCreatedAt())
             .hits(data.getHits())
+            .category(data.getCategory())
             .build();
 
-        return new ResponseDto<ProjectResponseDto>(HttpStatus.OK.value(), dto);
+        return new ResponseDto<>(HttpStatus.OK.value(), dto);
     }
     
     @PostMapping("/project/create")
     @CrossOrigin("*")
     public ResponseDto<String> createProject(@RequestBody ProjectRequestDto requestDto){
         String data = projectService.createP(requestDto);
-        return new ResponseDto<String>(HttpStatus.OK.value(), data);
+        return new ResponseDto<>(HttpStatus.OK.value(), data);
     }
 
     @DeleteMapping("/project/{id}")
     public ResponseDto<String> deleteProject(@PathVariable Long id){
         String data = projectService.deleteP(id);
-        return new ResponseDto<String>(HttpStatus.OK.value(), data);
+        return new ResponseDto<>(HttpStatus.OK.value(), data);
     }
 
     @PutMapping("/project/{id}")
     public ResponseDto<String> updateProject(@PathVariable Long id, @RequestBody ProjectRequestDto requestDto){
         String data = projectService.updateP(id, requestDto);
-        return new ResponseDto<String>(HttpStatus.OK.value(), data);
+        return new ResponseDto<>(HttpStatus.OK.value(), data);
     }
 
 
     @GetMapping("/projects/{tagName}")
     public ResponseDto<List<ProjectWithTagsDto>> getProjectsByTagName(@PathVariable String tagName) {
         List<ProjectWithTagsDto> data = projectService.getProjectsByTagName(tagName);
-        return new ResponseDto<List<ProjectWithTagsDto>>(HttpStatus.OK.value(), data);
+        return new ResponseDto<>(HttpStatus.OK.value(), data);
     }
 }
