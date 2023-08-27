@@ -2,6 +2,8 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { format, parseISO } from "date-fns";
 
+import DOMPurify from 'dompurify';
+
 import { ChevronRightIcon, InsightIcon, PinIcon } from '@/components/Icons';
 
 type PostPreviewProps = {
@@ -22,9 +24,10 @@ function BlogPreview({
   views,
 }: PostPreviewProps) {
 
-  
   const parsedDate = parseISO(date);
   const formattedDate = format(parsedDate, 'MMM dd, yyyy');
+
+  const sanitizedHTML = DOMPurify.sanitize(description);
 
   return (
     <article>
@@ -63,11 +66,11 @@ function BlogPreview({
         </div>
         <p
           className={clsx(
-            'mb-3 block leading-relaxed text-slate-600',
-            'dark:text-slate-400'
+            'mb-3 block leading-relaxed text-slate-800',
+            'dark:text-slate-200'
           )}
         >
-          {description}
+          <div dangerouslySetInnerHTML={{__html: sanitizedHTML}}></div>
         </p>
         <div
           className={clsx(

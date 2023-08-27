@@ -32,13 +32,13 @@ function Blog({ repo }: BlogsProps){
                     title: 'Blog',
                 }}
                 >
-                <div className='px-5'>
-                    <PageHeader 
-                        info={{
-                            title: 'Personal Blog',
-                            description: "My Develop Blog"
-                        }}
-                    />
+                <PageHeader 
+                    info={{
+                        title: 'Personal Blog',
+                        description: "My Develop Blog"
+                    }}
+                />
+                <div className='px-10'>
                     <div className='mt-16 mb-4 flex items-end gap-2'>
                         <h2 className='text-2xl font-bold tracking-tight md:text-4xl'>
                             All Posts 

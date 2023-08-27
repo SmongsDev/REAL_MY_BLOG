@@ -43,13 +43,13 @@ function Projects({ repos, user }: ProjectsProps){
                     title: 'Projects',
                 }}
             >
-                <div className='px-5'>
-                    <PageHeader
-                        info={{
-                            title: 'Projects',
-                            description: "Check out my projects on GitHub!"
-                        }}
-                    />
+                <PageHeader
+                    info={{
+                        title: 'Projects',
+                        description: "Check out my projects on GitHub!"
+                    }}
+                />
+                <div className='px-10'>
                     <Github repos={repos} user={user}/>
                 </div>            
             </Page>            

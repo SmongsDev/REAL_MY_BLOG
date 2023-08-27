@@ -15,6 +15,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ProjectResponseDto {
+
+    private Long id;
     
     private String title;
 
@@ -29,6 +31,7 @@ public class ProjectResponseDto {
     private Timestamp createdAt;
 
     public ProjectResponseDto(Project project) {
+        this.id = project.getId();
         this.title = project.getTitle();
         this.content = project.getContent();
         this.hits = project.getHits();

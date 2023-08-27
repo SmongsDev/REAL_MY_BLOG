@@ -44,6 +44,19 @@
             hover:text-blue-600
 }
 
+.profile-card {
+    @apply transition duration-300 transform 
+            bg-gradient-to-br from-[#fffbed] to-[#ffffff] 
+            /* dark:from-[#0F2027] from-5% dark:via-[#203A43] via-50% dark:to-[#2C5364] to-90% */
+            dark:from-[#141E30] dark:to-[#243B55]
+            border border-gray-300
+            hover:scale-105 
+            hover:shadow-lg
+            dark:border-gray-200/50
+            dark:hover:shadow-gray-400/40
+            hover:text-blue-600
+}
+
 .url-link {
     @apply text-slate-500 text-sm hover:text-sky-400
 }@use "katex/dist/katex.min.css";

@@ -45,13 +45,13 @@ function TIL({ repo }: TILListProps) {
           title: 'Today I Learned',
         }}
       >
-        <div className="divide-y divide-gray-200 dark:divide-gray-700 px-5">
-          <PageHeader 
-            info={{
-              title: 'Latest',
-              description: 'Today I Learned'
-            }}
-          />
+        <PageHeader 
+          info={{
+            title: 'Latest',
+            description: 'Today I Learned'
+          }}
+        />
+        <div className="px-10">
           <ul className="divide-y divide-gray-200 dark:divide-gray-700">
             {TILList}
           </ul>

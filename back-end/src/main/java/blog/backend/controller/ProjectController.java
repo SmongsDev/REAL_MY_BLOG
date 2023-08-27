@@ -52,6 +52,7 @@ public class ProjectController {
         Project data = projectService.getProject(id);
 
         ProjectResponseDto dto = ProjectResponseDto.builder()
+            .id(data.getId())
             .title(data.getTitle())
             .content(data.getContent())
             .createdAt(data.getCreatedAt())

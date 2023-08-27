@@ -7,6 +7,7 @@ import { format, parseISO } from 'date-fns';
 import Image from 'next/image';
 
 import styles from '@/styles/content.module.css';
+import DOMPurify from 'dompurify';
 
 interface DataType{
   data: Data,
@@ -24,6 +25,7 @@ const BlogDetailPage = ({ repo }: ProjectDetailProps) => {
   const parsedDate = parseISO(dateTimeString);
   const formattedDate = format(parsedDate, 'MMM dd, yyyy');
 
+  const sanitizedHTML = DOMPurify.sanitize(repo.data.content);
 
   return (
     <>
@@ -79,7 +81,7 @@ const BlogDetailPage = ({ repo }: ProjectDetailProps) => {
                   </dl>
                   <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
                     <div className="prose max-w-none pt-10 pb-8 dark:prose-dark">
-                      {repo.data.content}
+                      <div dangerouslySetInnerHTML={{__html: sanitizedHTML}}></div>
                     </div>
                     <div className='test'>
                       test
