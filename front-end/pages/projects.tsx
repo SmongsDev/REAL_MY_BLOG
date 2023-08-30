@@ -1,20 +1,14 @@
 import Layout from "@/components/Layout";
 
-import { GITHUB_NAME } from '@/config';
+import { GITHUB_MY_TOKEN, GITHUB_NAME } from '@/config';
 import Page from "@/components/content-layouts/Page";
 import PageHeader from "@/components/content-layouts/PageHeader";
 import Github from "@/components/Github";
-import { GetServerSideProps } from "next";
+import { Octokit } from "octokit";
+import { useEffect, useState } from "react";
 
-
-interface User {
-    login: string;
-    name: string;
-    avatar_url: string;
-    html_url: string;
-  }
-  
-  interface Repository {
+interface Repository {
+    id: number;
     name: string;
     fork: boolean;
     description: string;
@@ -27,15 +21,32 @@ interface User {
     timestamp: number;
     topics: string[];
     pushed_at: string;
-  }
-  
-  interface ProjectsProps {
-    repos: Repository[];
-    user: User;
-  }
-  
+}
 
-function Projects({ repos, user }: ProjectsProps){
+function Projects(){
+    const [projects, setProjects] = useState([]);
+
+    async function getProjects() {
+        const octokit = new Octokit({
+            auth: GITHUB_MY_TOKEN
+        });
+
+        return await octokit.request('GET /users/{username}/repos?sort={sort}&per_page={perPage}', {
+            username: 'javascriptKR',
+            sort: 'updated', // created(기본값), updated, pushed, full_name
+            perPage: 6,
+            'X-GitHub-Api-Version': '2022-11-28'
+        })
+    }
+
+    useEffect(() => {
+        getProjects().then(response => {
+            if (response.status === 200) {
+                setProjects(response.data);
+            }
+        });
+    }, []);
+
     return ( 
         <Layout>
             <Page
@@ -49,58 +60,20 @@ function Projects({ repos, user }: ProjectsProps){
                         description: "Check out my projects on GitHub!"
                     }}
                 />
-                <div className='px-10'>
-                    <Github repos={repos} user={user}/>
+                <div className='min-h-screen px-3'>
+                    <div className="mt-10 text-left md:px-14 px-0">
+                        <div className="mt-10 text-justify flex flex-col gap-2">
+                            <ul>
+                                {
+                                    projects.map((ele:Repository) => <Github key={ele.id} props={ele} />)
+                                }
+                            </ul>
+                        </div>
+                    </div>
                 </div>            
             </Page>            
         </ Layout>
     )
 }
 
-export const getServerSideProps: GetServerSideProps<ProjectsProps> = async ({ res }) => {
-
-	res.setHeader(
-		'Cache-Control',
-		'public, s-maxage=600, stale-while-revalidate=59'
-	)
-
-	const [ gitUserRes, gitReposRes] = await Promise.all( [
-		fetch(`https://api.github.com/users/${GITHUB_NAME}`),
-		fetch(`https://api.github.com/users/${GITHUB_NAME}/repos`),
-	] )
-	
-	let [user, repos]: [User, Repository[]] = await Promise.all([
-        gitUserRes.json(),
-        gitReposRes.json(),
-    ]);
-    
-	if (user.login) {
-		user = [user].map( 
-			({ login, name, avatar_url, html_url }) => ({ login, name, avatar_url, html_url })
-		)
-	}
-	
-	if (repos.length) {
-		repos = repos.map( 
-			({ name, fork, description, forks_count, html_url, language, watchers, default_branch, homepage, pushed_at, topics }) => {
-				const timestamp = Math.floor(Date.parse(pushed_at) / 1000)
-				return ({ name, fork, description, forks_count, html_url, language, watchers, default_branch, homepage, timestamp, topics, pushed_at })
-			}
-		)
-
-		repos.sort( (a, b) => b.timestamp - a.timestamp )
-
-		repos = repos.filter( (e, i) => {
-			if ( i < 8 && ! e.topics.includes('github-config')) return e
-			return false
-		})
-	}
-
-	if (!repos || !user) { return { notFound: true,	} }
-
-    console.log("유저 : ",user);
-
-	return { props: { repos, user } }
-}
-  
 export default Projects;

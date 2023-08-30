@@ -8,14 +8,60 @@
     font-weight: normal;
     font-style: normal;
 }
-.test {
-    @apply text-blue-500 dark:text-slate-100
+/* .test {
+    @apply text-slate-700 dark:text-slate-100
 
 }
-.test p:nth-child(1){
-    @apply text-green-500 dark:text-sky-300
+.test h1:nth-child(){
+    @apply text-slate-700 dark:text-slate-100
+} */
+
+/* #disqus_thread {
+    @apply bg-white dark:bg-slate-800 dark:text-white 
 }
 
+#disqus_thread p {
+    color: white;
+}
+
+#disqus_thread a {
+    text-decoration: underline;
+    color: rgb(116, 202, 252);
+} */
+
+/* Write 기능 버튼 */
+button .ql-stroke,
+.ql-picker-label .ql-stroke {
+  @apply dark:fill-none dark:stroke-white dark:text-white !important
+}
+
+button .ql-fill,
+.ql-picker-label .ql-fill {
+  @apply dark:fill-white dark:stroke-none dark:text-white !important
+}
+
+button .ql-font,
+.ql-picker-label {
+    @apply hover:text-cyan-500 dark:text-white dark:hover:text-cyan-700 !important
+}
+
+button:hover .ql-stroke,
+.ql-picker-label:hover .ql-stroke {
+  @apply fill-none stroke-cyan-500 dark:fill-none dark:stroke-cyan-700 !important
+}
+
+.ql-active .ql-stroke {
+  @apply fill-none stroke-cyan-500 dark:fill-none dark:stroke-white dark:text-white !important
+}
+
+button:hover .ql-fill,
+.ql-picker-label:hover .ql-fill {
+  @apply fill-cyan-500 stroke-none dark:fill-cyan-700 dark:stroke-none !important
+}
+
+.ql-active .ql-fill {
+  @apply fill-cyan-500 stroke-none dark:fill-white dark:stroke-none !important
+}
 
 
 .main-title {
@@ -41,7 +87,7 @@
             hover:shadow-lg
             dark:border-gray-200/50
             dark:hover:shadow-gray-400/40
-            hover:text-blue-600
+            dark:hover:text-cyan-300
 }
 
 .profile-card {
@@ -54,12 +100,33 @@
             hover:shadow-lg
             dark:border-gray-200/50
             dark:hover:shadow-gray-400/40
-            hover:text-blue-600
+            hover:text-sky-600
+            dark:hover:text-cyan-300
+}
+
+.profile-title {
+    @apply bg-gradient-to-br from-[#87d3f7] to-[#ffffff]
+        dark:from-[#c2edff] from-10% dark:via-[#2693b8] via-50% dark:to-[#c2edff] to-90%
+}
+
+.exp-card{
+    @apply bg-gradient-to-br from-sky-800 to-sky-200 
 }
 
 .url-link {
     @apply text-slate-500 text-sm hover:text-sky-400
 }@use "katex/dist/katex.min.css";
+
+.commentContentsClosed{
+	margin-top: 10px;
+	text-overflow: ellipsis;  
+	overflow : hidden;
+	display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+    
+}
+
 
 h1, h2, h3, h4, h5, h6 {
     @apply text-slate-900 dark:text-white

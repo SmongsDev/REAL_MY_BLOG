@@ -2,7 +2,6 @@ package blog.backend.dto.project;
 
 import java.util.List;
 
-import blog.backend.entity.Project;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,10 +21,4 @@ public class ProjectRequestDto {
 
     private String category;
 
-    // public Project toEntity(){
-    //     return Project.builder()
-    //         .title(title)
-    //         .content(content)
-    //         .build();
-    // }
 }

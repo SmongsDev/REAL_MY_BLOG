@@ -9,6 +9,10 @@ import Image from 'next/image';
 import styles from '@/styles/content.module.css';
 import DOMPurify from 'dompurify';
 
+import { DiscussionEmbed } from 'disqus-react';
+import { useTheme } from 'next-themes';
+import { useEffect } from 'react';
+
 interface DataType{
   data: Data,
   errorCode: number
@@ -26,6 +30,8 @@ const BlogDetailPage = ({ repo }: ProjectDetailProps) => {
   const formattedDate = format(parsedDate, 'MMM dd, yyyy');
 
   const sanitizedHTML = DOMPurify.sanitize(repo.data.content);
+  
+  const { theme } = useTheme(); 
 
   return (
     <>
@@ -81,17 +87,27 @@ const BlogDetailPage = ({ repo }: ProjectDetailProps) => {
                   </dl>
                   <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
                     <div className="prose max-w-none pt-10 pb-8 dark:prose-dark">
-                      <div dangerouslySetInnerHTML={{__html: sanitizedHTML}}></div>
-                    </div>
-                    <div className='test'>
-                      test
-                      <p>
-                        test
-                      </p>
+                      <div className='test' dangerouslySetInnerHTML={{__html: sanitizedHTML}}></div>
                     </div>
                   </div>
                 </div>
               </div>
+            </article>
+
+            {/* 댓글 */}
+            <article className='prose prose-zinc mx-auto min-h-screen max-w-4xl pt-24 dark:prose-invert lg:prose-lg'>
+              <DiscussionEmbed
+                key={theme}
+                shortname='smongs'
+                config={
+                  {
+                    url: DEFAULT_URL,
+                    identifier: String(repo.data.id),
+                    title: repo.data.title,
+                    language: 'ko',
+                  }
+                }
+              />
             </article>
         </Page>
       </Layout>

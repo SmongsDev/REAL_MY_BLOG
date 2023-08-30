@@ -4,6 +4,7 @@ const nextConfig = {
     transpilePackages: ["verbum"],
     images: {
         domains: [
+            'opengraph.githubassets.com',
             'www.notion.so',
             'images.unsplash.com',
             's3.us-west-2.amazonaws.com'

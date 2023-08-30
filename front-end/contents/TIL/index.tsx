@@ -3,6 +3,7 @@ import Link from "next/link";
 import { format, parseISO } from 'date-fns';
 import TagType from "@/interface/projectT.interface";
 import Tag from "@/components/Tag";
+import DOMPurify from "dompurify";
 
 function TILContents({ content }: {content: Data}) {
   const dateTimeString = content.createdAt;
@@ -10,6 +11,8 @@ function TILContents({ content }: {content: Data}) {
   const formattedDate = format(parsedDate, 'MMM dd, yyyy');
 
   const tags = content.tags?.map((tag: TagType) => (<Tag key={tag.id} text={tag} />))
+  
+  const sanitizedHTML = DOMPurify.sanitize(content.content);
   
   return (
     <>
@@ -30,9 +33,8 @@ function TILContents({ content }: {content: Data}) {
                   {tags}
                 </div>
               </div>
-              <div className="prose max-w-none text-gray-500 dark:text-gray-400">
+              <div className="prose max-w-none pl-2 pt-2 text-gray-500 dark:text-gray-400" dangerouslySetInnerHTML={ {__html: sanitizedHTML}}>
                 {/* {summary} 로 교체 예정*/} 
-                {content.content}
               </div>
               {/* 필요 없음 */}
               {/* <div className="text-base font-medium leading-6">

@@ -13,7 +13,7 @@ function getDefaultLayout(page: ReactElement): ReactNode {
 const App = ({ Component, pageProps }: AppProps) => {
   let getLayout = getDefaultLayout;
   return (
-    <ThemeProvider attribute="class">
+    <ThemeProvider attribute="class" enableColorScheme={false}>
       <Component {...pageProps} />
     </ThemeProvider>
   );

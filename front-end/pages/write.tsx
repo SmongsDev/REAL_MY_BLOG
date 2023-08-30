@@ -1,141 +1,104 @@
 import Header from '@/components/Header';
 import dynamic from 'next/dynamic';
-// import { GITHUB_TOKEN, DEFAULT_URL } from "@/config";
+import { GITHUB_TOKEN } from "@/config";
 import Footer from '@/components/Footer';
 import { SetStateAction, useState } from 'react';
 
 import DOMPurify from 'dompurify';
 import { TagInput } from '@/components/TagInput';
 
-import { NextResponse } from 'next/server'
-
-// import 'react-quill/dist/quill.snow.css';
-// const ReactQuill = dynamic(() => import('react-quill'), {
-//     ssr: false
-// })
-
-const GITHUB_TOKEN = "ghu_fRm12JfgIh7pya2KtmwBBn9SLrcO4p4STabe"
+import 'react-quill/dist/quill.snow.css';
+const ReactQuill = dynamic(() => import('react-quill'), {
+    ssr: false
+})
 
 const DEFAULT_URL = "https://javascriptkr-curly-space-rotary-phone-j76j6qjgwq72jj66-8080.app.github.dev"
 
-// const modules = {
-//     toolbar: {
-//         container: [
-//           [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-//           [{ 'font': [] }],
-//           [{ 'align': [] }],
-//           ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-//           [{ 'list': 'ordered' }, { 'list': 'bullet' }, 'link'],
-//           [{ 'color': ['#000000', '#e60000', '#ff9900', '#ffff00', '#008a00', '#0066cc', '#9933ff', '#ffffff', '#facccc', '#ffebcc', '#ffffcc', '#cce8cc', '#cce0f5', '#ebd6ff', '#bbbbbb', '#f06666', '#ffc266', '#ffff66', '#66b966', '#66a3e0', '#c285ff', '#888888', '#a10000', '#b26b00', '#b2b200', '#006100', '#0047b2', '#6b24b2', '#444444', '#5c0000', '#663d00', '#666600', '#003700', '#002966', '#3d1466', 'custom-color'] }, { 'background': [] }],
-//           ['image', 'video'],
-//           ['clean']  
-//         ],
-//     }
-// }
+const modules = {
+    toolbar: {
+        container: [
+        //   [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+          [{ 'font': [] }],
+          [{ 'size': ['small', false, 'large', 'huge'] }],
+          [{ 'align': [] }],
+          ['bold', 'italic', 'underline', 'strike', 'blockquote', 'code-block'],
+          [{ 'list': 'ordered' }, { 'list': 'bullet' }, 'link'],
+          [{ 'script': 'sub'}, { 'script': 'super' }], 
+          [{ 'color': ['#000000', '#e60000', '#ff9900', '#ffff00', '#008a00', '#0066cc', '#9933ff', '#ffffff', '#facccc', '#ffebcc', '#ffffcc', '#cce8cc', '#cce0f5', '#ebd6ff', '#bbbbbb', '#f06666', '#ffc266', '#ffff66', '#66b966', '#66a3e0', '#c285ff', '#888888', '#a10000', '#b26b00', '#b2b200', '#006100', '#0047b2', '#6b24b2', '#444444', '#5c0000', '#663d00', '#666600', '#003700', '#002966', '#3d1466', 'custom-color'] }, { 'background': [] }],
+          ['image'],
+          ['clean']
+        ],
+    }
+}
 
-// export async function createPost(title, value, tags) {
-//     const requestHeaders: HeadersInit = new Headers();
-//     if (!GITHUB_TOKEN) {
-//         throw new Error("토큰이 없어요!");
-//     }
-//     else{
-//         requestHeaders.set('X-Github-Token', GITHUB_TOKEN);
-//         console.log("토큰 있음 : ", GITHUB_TOKEN);
-//     }
-//     try {
+export async function createPost(title: string, content: string, tags: string[], category: string) {
+    const requestHeaders: HeadersInit = new Headers();
+    if (!GITHUB_TOKEN) {
+        console.log("토큰이 없어요!");
+    }
+    else{
+        requestHeaders.set('X-Github-Token', GITHUB_TOKEN);
+        console.log("토큰 있음 : ", GITHUB_TOKEN);
+    }
+    requestHeaders.append('Content-Type', 'application/json')
+    requestHeaders.append('Access-Control-Allow-Origin', '*')
+    requestHeaders.append('Access-Control-Allow-Credentials', 'true')
+    requestHeaders.append('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Amz-Date, Authorization, X-Api-Key, X-Amz-Security-Token, locale')
+    requestHeaders.append('Access-Control-Allow-Methods', '*')
     
-//         const response = await fetch(`${DEFAULT_URL}/api/project/create`, {
-//             method: 'POST',
-//             headers: requestHeaders,
-//             body: JSON.stringify({ title, value, tags }),
-//         });
-    
-//         if (!response.ok) {
-//             throw new Error("데이터를 보내는데 문제가 발생했습니다.");
-//         }
-    
-//         const data = await response.json();
-//         return data;
-//     } catch (e) {
-//         console.error('오류 발생: ', e);
-//         throw e;
-//     }
-// }
+    const body = JSON.stringify({ title, content, tags, category })
+
+    try {
+        const res = await fetch(`${DEFAULT_URL}/api/project/create`, {
+            method: 'POST',
+            headers: requestHeaders,
+            body: body
+        });
+
+        if (!res.ok) {
+            console.error('데이터를 보내는데 문제가 발생했습니다.');
+            return;
+        }
+
+        const data = await res.json();
+        console.log(data);
+    } catch (error) {
+        console.error('데이터를 가져오는데 문제가 발생했습니다.', error);
+    }
+}
 
 function Write() {
     const [title, setTitle] = useState('');    
-    const [value, setValue] = useState('');
-
+    const [content, setContent] = useState('');
     const [tags, setTags] = useState<string[]>([]);
+    const [category, setCategory] = useState('');
 
     const handleAddTag = (newTag:string) => {
         setTags([...tags, newTag]);
     };
 
+    const handleRemoveTag = (tags: string[]) => {
+        setTags(tags);
+    }
+
     const onChangeTitle = (event: { target: { value: SetStateAction<string>}}) => {
         setTitle(event.target.value)
     }
-
-    const onChangeValue = (event: { target: {value: SetStateAction<string>}}) =>{
-        setValue(event.target.value);
+    
+    const onChangeContents = (value: string) => {
+        setContent(value);
     }
 
-    // const handleSubmit = async () => { 
-    //     try {
-    //         const data = await createPost(title, value, tags);
-    //         console.log('서버 응답 데이터: ', data);
-    //     } catch (error) {
-    //         console.log("오류", error)
-    //     }
-    // };
+    const onChangeCategory = (event: { target: { value: SetStateAction<string>}}) => {
+        setCategory(event.target.value)
+    }
 
-    const useCreatePost = async () => {
-        console.log("요청됨", title, '+', value);
-
-        const requestHeaders: HeadersInit = new Headers();
-        if (!GITHUB_TOKEN) {
-            console.log("토큰이 없어요!");
-        }
-        else{
-            requestHeaders.set('X-Github-Token', GITHUB_TOKEN);
-            console.log("토큰 있음 : ", GITHUB_TOKEN);
-        }
-        requestHeaders.append('Content-Type', 'application/json')
-        requestHeaders.append('Access-Control-Allow-Origin', '*')
-        requestHeaders.append('Access-Control-Allow-Credentials', 'true')
-        requestHeaders.append('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Amz-Date, Authorization, X-Api-Key, X-Amz-Security-Token, locale')
-        requestHeaders.append('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-        requestHeaders.forEach((value, name) => {
-            console.log(`${name}: ${value}`);
-        });
-        const body = JSON.stringify({ title, value, tags })
-        // console.log(body)
-
+    const handleSubmit = async () => { 
         try {
-            const res = await fetch(`${DEFAULT_URL}/api/project/create`, {
-                method: 'POST',
-                // mode: 'no-cors',
-                headers: requestHeaders
-                // {
-                //     'Access-Control-Allow-Origin': '*',
-                //     'Access-Control-Allow-Credentials': 'true',
-                //     'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Amz-Date, Authorization, X-Api-Key, X-Amz-Security-Token, locale',
-                //     'Access-Control-Allow-Methods': 'GET, POST',
-                //     'X-Github-Token': "ghu_fRm12JfgIh7pya2KtmwBBn9SLrcO4p4STabe"
-                // }               
-                ,
-                body: body
-            });
-
-            if (!res.ok) {
-                console.error('데이터를 보내는데 문제가 발생했습니다.');
-                return;
-            }
-
-            const data = await res.json();
-            console.log(data);
+            const data = await createPost(title, content, tags, category);
+            console.log('서버 응답 데이터: ', data);
         } catch (error) {
-            console.error('데이터를 가져오는데 문제가 발생했습니다.', error);
+            console.log("오류", error)
         }
     };
 
@@ -152,22 +115,25 @@ function Write() {
                                 
                             </div>
                             <div className="mt-6 px-14">
-                                {/* <ReactEditor /> */}
                                 <div className="mt-6 mb-4">
                                     <label htmlFor="small-input" className="block mb-2 text-xm font-medium text-gray-900 dark:text-slate-200">Title</label>
                                     <input type="text" id="small-input" value={title} onChange={onChangeTitle} className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-slate-200 dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
                                 </div>
                                 <div>
+                                    <label htmlFor="small-input" className="block mb-2 text-xm font-medium text-gray-900 dark:text-slate-200">Category</label>
+                                    <select id="countries" defaultValue={'DEFAULT'} className="bg-gray-50 border border-gray-300 text-gray-900 mb-5 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onChange={onChangeCategory}>
+                                        <option value="DEFAULT" disabled>Choose a category ...</option>
+                                        <option value="blog">BLOG</option>
+                                        <option value="TIL">Today I Learn</option>
+                                    </select>
+                                </div>
+                                <div>
                                     <label htmlFor="small-input" className="block mb-2 text-xm font-medium text-gray-900 dark:text-slate-200">TAGS</label>
-                                    <TagInput onAddTag={handleAddTag} tags={tags}/>
+                                    <TagInput onAddTag={handleAddTag} tags={tags} onRemoveTag={handleRemoveTag}/>
                                 </div>
                                 <div className=''>
-                                    
-                                    <div className="mt-6 mb-4">
-                                        <label htmlFor="small-input" className="block mb-2 text-xm font-medium text-gray-900 dark:text-slate-200">Content</label>
-                                        <input type="text" id="small-input" value={value} onChange={onChangeValue} className="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-slate-200 dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-                                    </div>
-                                    {/* <ReactQuill theme="snow" value={value} onChange={onChangeContents} modules={modules} /> */}
+                                    <label htmlFor="small-input" className="block mb-2 mt-5 text-xm font-medium text-gray-900 dark:text-slate-200">Content</label>
+                                    <ReactQuill theme="snow" value={content} onChange={onChangeContents} modules={modules} />
 
                                     {/* 적용 안됨 */}
                                     {/* {typeof window !== 'undefined' ? (
@@ -180,11 +146,7 @@ function Write() {
                                     
                                 </div>
                                 <button className='container mt-5 text-white bg-gradient-to-br from-[#140974] to-[#1938c2] hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2' 
-                                    // onClick={() => {
-                                    //     // useCreatePost()
-                                    //     handleSubmit
-                                    // }}
-                                    onClick={useCreatePost}
+                                    onClick={handleSubmit}
                                 >Submit</button>
                             </div>
                             

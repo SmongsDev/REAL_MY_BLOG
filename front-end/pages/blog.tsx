@@ -43,7 +43,7 @@ function Blog({ repo }: BlogsProps){
                         <h2 className='text-2xl font-bold tracking-tight md:text-4xl'>
                             All Posts 
                         </h2>
-                        <span className='font-bold'>({repo.data.content.length})</span>
+                        <span className='font-bold dark:text-white'>({repo.data.content.length})</span>
                     </div>
                     <BlogContents data={repo.data.content} />
                 </div>

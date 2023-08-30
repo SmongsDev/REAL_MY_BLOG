@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { format, parseISO } from "date-fns";
 
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
 
 import { ChevronRightIcon, InsightIcon, PinIcon } from '@/components/Icons';
 
@@ -35,7 +35,7 @@ function BlogPreview({
         key={id}
         href={`blog/${id}`}
         className={clsx(
-          'group relative mb-6 block overflow-hidden bg-gradient-to-t',
+          'group relative mt-6 mb-6 block overflow-hidden bg-gradient-to-t',
           'sm:mb-0 sm:rounded-2xl',
         )}
       >
@@ -64,14 +64,14 @@ function BlogPreview({
             {title}
           </h2>
         </div>
-        <p
+        <div
           className={clsx(
             'mb-3 block leading-relaxed text-slate-800',
             'dark:text-slate-200'
           )}
         >
-          <div dangerouslySetInnerHTML={{__html: sanitizedHTML}}></div>
-        </p>
+          <div className='commentContentsClosed' dangerouslySetInnerHTML={ {__html: sanitizedHTML}}></div>
+        </div>
         <div
           className={clsx(
             'flex items-center gap-2 text-xs text-slate-600',
