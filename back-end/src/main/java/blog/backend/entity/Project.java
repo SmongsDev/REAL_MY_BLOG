@@ -40,7 +40,7 @@ public class Project {
     private String title;
 
     @Lob
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = false, columnDefinition="LONGTEXT")
     private String content;
 
     @ColumnDefault("0")

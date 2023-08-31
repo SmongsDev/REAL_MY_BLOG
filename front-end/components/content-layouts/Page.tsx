@@ -17,7 +17,7 @@ function Page({
 
   return (
     <>
-      <Header title={title} />
+      <Header title={title}/>
       <div className={clsx('scroll-mt-[86px]')} id="main-contents">
         {children}
       </div>

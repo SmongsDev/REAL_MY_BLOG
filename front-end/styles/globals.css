@@ -8,26 +8,18 @@
     font-weight: normal;
     font-style: normal;
 }
-/* .test {
+
+@font-face {
+    font-family: 'TheJamsil5Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
+.test {
     @apply text-slate-700 dark:text-slate-100
 
 }
-.test h1:nth-child(){
-    @apply text-slate-700 dark:text-slate-100
-} */
-
-/* #disqus_thread {
-    @apply bg-white dark:bg-slate-800 dark:text-white 
-}
-
-#disqus_thread p {
-    color: white;
-}
-
-#disqus_thread a {
-    text-decoration: underline;
-    color: rgb(116, 202, 252);
-} */
 
 /* Write 기능 버튼 */
 button .ql-stroke,
@@ -93,11 +85,11 @@ button:hover .ql-fill,
 .profile-card {
     @apply transition duration-300 transform 
             bg-gradient-to-br from-[#fffbed] to-[#ffffff] 
-            /* dark:from-[#0F2027] from-5% dark:via-[#203A43] via-50% dark:to-[#2C5364] to-90% */
             dark:from-[#141E30] dark:to-[#243B55]
             border border-gray-300
             hover:scale-105 
             hover:shadow-lg
+            dark:text-slate-200
             dark:border-gray-200/50
             dark:hover:shadow-gray-400/40
             hover:text-sky-600
@@ -124,9 +116,11 @@ button:hover .ql-fill,
 	display: -webkit-box;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
-    
 }
 
+html, body {
+    font-family: 'TheJamsil5Bold'
+}
 
 h1, h2, h3, h4, h5, h6 {
     @apply text-slate-900 dark:text-white
@@ -142,4 +136,10 @@ a {
 
 p {
     @apply text-slate-500 dark:text-slate-400 
+}
+
+pre {
+    @apply text-[#212529] bg-[##fbfcfd] dark:text-[#ececec] dark:bg-[#1e1e1e] 
+        rounded-xl p-3 my-2
+        border-solid border-2 border-cyan-500 dark:border-blue-500 
 }

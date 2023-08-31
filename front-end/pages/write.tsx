@@ -47,6 +47,7 @@ export async function createPost(title: string, content: string, tags: string[],
     requestHeaders.append('Access-Control-Allow-Methods', '*')
     
     const body = JSON.stringify({ title, content, tags, category })
+    console.log(body);
 
     try {
         const res = await fetch(`${DEFAULT_URL}/api/project/create`, {
@@ -61,7 +62,7 @@ export async function createPost(title: string, content: string, tags: string[],
         }
 
         const data = await res.json();
-        console.log(data);
+        return data;
     } catch (error) {
         console.error('데이터를 가져오는데 문제가 발생했습니다.', error);
     }
@@ -96,7 +97,9 @@ function Write() {
     const handleSubmit = async () => { 
         try {
             const data = await createPost(title, content, tags, category);
-            console.log('서버 응답 데이터: ', data);
+            if (data != null){
+                window.location.reload();
+            }
         } catch (error) {
             console.log("오류", error)
         }
