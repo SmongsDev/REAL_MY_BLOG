@@ -3,7 +3,7 @@ import Link from "next/link";
 import { format, parseISO } from 'date-fns';
 import TagType from "@/interface/projectT.interface";
 import Tag from "@/components/Tag";
-import DOMPurify from "dompurify";
+import DOMPurify from 'isomorphic-dompurify';
 
 function TILContents({ content }: {content: Data}) {
   const dateTimeString = content.createdAt;

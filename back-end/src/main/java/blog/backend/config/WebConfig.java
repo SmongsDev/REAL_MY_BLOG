@@ -8,7 +8,7 @@
 // @Configuration
 // @EnableWebMvc
 // public class WebConfig implements WebMvcConfigurer {
-//     private String FRONT_URL = "https://javascriptkr-curly-space-rotary-phone-j76j6qjgwq72jj66-3000.preview.app.github.dev";
+//     private String FRONT_URL = "https://javascriptkr-curly-space-rotary-phone-j76j6qjgwq72jj66-3000.github.dev";
 
 //     @Override
 //     public void addCorsMappings(CorsRegistry registry) {

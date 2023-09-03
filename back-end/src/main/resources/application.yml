@@ -18,3 +18,12 @@ spring:
     #     include: security
     main:
         allow-bean-definition-overriding: true
+
+logging:
+  level:
+    com.tutorial: debug
+
+    
+jwt:
+  secret: a2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbQ==
+  token-validity-in-seconds: 86400

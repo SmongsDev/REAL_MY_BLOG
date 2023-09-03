@@ -2,9 +2,9 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { format, parseISO } from "date-fns";
 
-import DOMPurify from "dompurify";
-
 import { ChevronRightIcon, InsightIcon, PinIcon } from '@/components/Icons';
+
+import DOMPurify from 'isomorphic-dompurify';
 
 type PostPreviewProps = {
     id: number;
