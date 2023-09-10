@@ -34,6 +34,7 @@ public class AuthService {
     }
 
     public TokenDto login(MemberRequestDto requestDto) {
+        System.out.println("접속!!!!");
         UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
 
         Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);

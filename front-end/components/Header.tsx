@@ -1,9 +1,11 @@
+import { useSession } from "next-auth/react"
+
 import Link from "next/link";
 import DarkModeToggleButton from "./Dark-mode-toggle-button";
-import Script from "next/script";
 import Head from "next/head";
 import headerNavLinks from "@/data/HeaderNavLink";
 import Image from 'next/image'
+// import AuthContext from "@/store/auth-context";
 
 interface HeadProps {
     title: string;
@@ -18,6 +20,7 @@ export default function Header({
     overrideTitle = false,
     structuredData = '',
   }: HeadProps){
+    const { data: session } = useSession()
 
     const htmlTitle = overrideTitle
       ? title
@@ -44,19 +47,30 @@ export default function Header({
                         {/* <span className="main-title font-[GoryeongStrawberry]">SMONGS BLOG</span> */}
                         </a>
                     </Link>
-                    <nav className="md:mr-auto md:ml-4 md:py-1 md:pl-4 flex flex-wrap items-center text-base justify-center">
-                        {headerNavLinks
-                            .filter((link) => link.href !== '/')
-                            .map((link) => (
-                                <Link
-                                    key={link.title}
-                                    href={link.href}
-                                    className="mr-5 hover:text-stone-900 dark:hover:text-gray-500 font-[TheJamsil5Bold]"
-                                    replace
-                                >
-                                    {link.title}
-                                </Link>
-                        ))}
+                    <nav className="md:mr-auto md:ml-4 md:py-1 md:pl-4 flex flex-wrap items-center text-base justify-center font-[TheJamsil5Bold]">
+                        
+                        <Link key={'Home'} href={'/'} className="mr-5 hover:text-stone-900 dark:hover:text-gray-500" replace>
+                            {'Home'}
+                        </Link>
+                        <Link key={'Blog'} href={'/blog'} className="mr-5 hover:text-stone-900 dark:hover:text-gray-500" replace>
+                            {'Blog'}
+                        </Link>
+                        <Link key={'Projects'} href={'/projects'} className="mr-5 hover:text-stone-900 dark:hover:text-gray-500" replace>
+                            {'Projects'}
+                        </Link>
+                        <Link key={'T.I.L'} href={'/today-i-learned'} className="mr-5 hover:text-stone-900 dark:hover:text-gray-500" replace>
+                            {'T.I.L'}
+                        </Link>
+                        <Link key={'About'} href={'/about-me'} className="mr-5 hover:text-stone-900 dark:hover:text-gray-500" replace>
+                            {'About'}
+                        </Link>
+                        {session ? 
+                            <Link key={'Write'} href={'/write'} className="mr-5 hover:text-stone-900 dark:hover:text-gray-500" replace>
+                                {'Write'}
+                            </Link>
+                            : null
+                        }
+                            
                     </nav>
                     <DarkModeToggleButton />
                 </div>

@@ -25,5 +25,5 @@ logging:
 
     
 jwt:
-  secret: a2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbQ==
+  secret: Y2JmOTc3NjBhY2U4ODMzMDIyM2VmN2M3ZGVkNTU1MzM2MTNlNWY0NDA5OTYxMmVmOGY3ODc0MmU0N2RhMzk5YjhhMzE2ZTE5YWM3YWM0MDI5Mjc0MzUxN2ZhMTBkNzRjMmNjNTllMzkyMmMyMTZiYWZjNTYyOWMxOTllZDU0Zjc=
   token-validity-in-seconds: 86400

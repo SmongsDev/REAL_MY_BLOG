@@ -4,6 +4,10 @@ import java.util.Arrays;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -37,7 +41,11 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
+    // @Bean
+    // public WebSecurityCustomizer webSecurityCustomizer() {
+    //     return (web) -> web.ignoring().requestMatchers("/예외처리하고 싶은 url", "/예외처리하고 싶은 url");
+    // }
+    
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -54,15 +62,8 @@ public class SecurityConfig {
 
             .and()
             .authorizeHttpRequests()
-            .requestMatchers("/api/**","/member/**", "/auth/**").permitAll()
+            .requestMatchers("/api/**","/member/**", "/auth/login").permitAll()
             .anyRequest().authenticated()
-            .and()
-                .formLogin()
-                .loginPage("/auth/login")
-                .loginProcessingUrl("/실제 로그인이 되는 url")
-                .permitAll()
-                // .successHandler()
-                // .failureHandler()
 
             .and()
             .apply(new JwtSecurityConfig(tokenProvider));

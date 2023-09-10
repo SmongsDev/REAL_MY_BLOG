@@ -8,6 +8,8 @@ import DOMPurify from 'dompurify';
 import { TagInput } from '@/components/TagInput';
 
 import 'react-quill/dist/quill.snow.css';
+import { signIn, useSession } from 'next-auth/react';
+import Error401 from './401';
 const ReactQuill = dynamic(() => import('react-quill'), {
     ssr: false
 })
@@ -69,10 +71,18 @@ export async function createPost(title: string, content: string, tags: string[],
 }
 
 function Write() {
+    const { data: session, status } = useSession();
+
     const [title, setTitle] = useState('');    
     const [content, setContent] = useState('');
     const [tags, setTags] = useState<string[]>([]);
     const [category, setCategory] = useState('');
+
+    if(!session){
+        return (
+            <Error401 />
+        )
+    }
 
     const handleAddTag = (newTag:string) => {
         setTags([...tags, newTag]);
@@ -95,13 +105,20 @@ function Write() {
     }
 
     const handleSubmit = async () => { 
-        try {
-            const data = await createPost(title, content, tags, category);
-            if (data != null){
-                window.location.reload();
+        if(status === "authenticated"){
+            try {   
+                const data = await createPost(title, content, tags, category);
+                if (data != null){
+                    window.location.reload();
+                }
+            } catch (error) {
+                console.log("오류", error)
             }
-        } catch (error) {
-            console.log("오류", error)
+        }
+        else {
+            return (
+                <Error401 />
+            )
         }
     };
 
