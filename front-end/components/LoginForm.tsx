@@ -8,6 +8,9 @@ const LoginForm = () => {
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
 
+  const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
+  const passwordRegEx = /^[A-Za-z0-9]{8,20}$/
+  //https://velog.io/@isabel_noh/React-%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EC%9D%B4%EB%A9%94%EC%9D%BC-%EB%B0%8F-%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8-%EC%A0%95%EA%B7%9C%EC%8B%9D
   async function submitHandler(event: React.SyntheticEvent) {
     event.preventDefault();
 
@@ -17,11 +20,8 @@ const LoginForm = () => {
     const result = await signIn("email-login", {
       email: enteredEmail,
       password: enteredPassword,
-      redirect: true,
-      callbackUrl: "/"
+      redirect: false,
     });
-    
-    console.log(result);
     if (!result?.error) {
       setFormStatus(`Log in Success!`);
       router.replace("/");
@@ -32,7 +32,7 @@ const LoginForm = () => {
 
   const { data: session, status } = useSession();
   const router = useRouter();
-
+  console.log(session);
   if (status === "authenticated") {
     router.replace("/");
     return (
