@@ -1,6 +1,7 @@
 export default interface TagType {
   id: number;
   name: string;
+  cnt: number;
 }
 
 export default interface Data{

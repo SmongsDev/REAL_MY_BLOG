@@ -3,12 +3,8 @@ import { Dialog, Transition } from '@headlessui/react'
 import useShortcut from '@/hooks/useShortcut';
 import { XDarkIcon, XLightIcon } from './Icons';
 import useTheme from '@/hooks/useTheme';
-import CreatePost from './CreatePost';
-import VerbumTextEditor from './NoteViewer';
-import clsx from 'clsx';
 import Link from 'next/link';
 import NewPosts from './NewPosts';
-// import { XMarkIcon } from '@heroicons/react/24/outline'
 
 export default function SlideOvers() {
   const { theme, setTheme } = useTheme();
