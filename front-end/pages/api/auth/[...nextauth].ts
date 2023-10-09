@@ -3,6 +3,7 @@ import NextAuth, { Session } from "next-auth";
 import GithubProvider from "next-auth/providers/github"
 import CredentialsProvider from "next-auth/providers/credentials";
 import jwt from "jsonwebtoken";
+import { JToken, SessionWithUser } from '@/auth';
 
 const DEFAULT_URL = "https://javascriptkr-curly-space-rotary-phone-j76j6qjgwq72jj66-8080.app.github.dev"
 const requestHeaders: HeadersInit = new Headers();
@@ -33,12 +34,40 @@ export default NextAuth({
           password: credentials?.password
         }
         const JSONdata = JSON.stringify(data);
-
         const options = {
           method: "POST",
           headers: requestHeaders,
           body: JSONdata,
         };
+        // try {
+        //   const res = await fetch(`${DEFAULT_URL}/auth/login`, options);
+
+        //   if (res.ok) {
+        //     const account = await res.json();
+        //     const accessToken = res.headers.get("Access_Token");
+        //     const refreshToken = res.headers.get("Refresh_Token");
+
+        //     const decodedToken = jwt.decode(accessToken);
+        //     const expires_in = decodedToken?.exp
+        //     // Use the provided jwt function to generate a new JWT token
+        //     const token = await jwt.sign({
+        //       accessToken: accessToken,
+        //       expires_in: expires_in,
+        //       refreshToken: refreshToken,
+        //       user: { /* Add user details here if available */ }
+        //     }, secret, {
+        //       // Set JWT options here if needed
+        //     });
+
+        //     return Promise.resolve({ ...account, user: { /* Add user details here if available */ }, token });
+        //   } else {
+        //     // 로그인 실패 처리
+        //     return Promise.reject({ details: "error", message: "로그인 실패" });
+        //   }
+        // } catch (error) {
+        //   console.error("error:", error);
+        //   return Promise.reject({ details: "error", message: error });
+        // }
         try{
           const res = await fetch(`${DEFAULT_URL}/auth/login`, options);
           if (res.ok) {
@@ -78,7 +107,7 @@ export default NextAuth({
   pages: {
     signIn: "/login",
   },
-  secret: process.env.SECRET,
+  secret: process.env.JWT_SECRET,
   session: {
     strategy: 'jwt',
     // maxAge: 60,
@@ -86,36 +115,64 @@ export default NextAuth({
     // jwt: true
   },
   callbacks: {
-    async signIn(user: { user: {accessToken: string; refreshToken: string;}}, account: { accessToken: string; refreshToken: string; }, profile: any) {
+    async signIn(user: any) { //: { user: {accessToken: string; refreshToken: string;}}
       if (user && user.user.accessToken) {
-        console.log("엑세스 토큰",user.user.accessToken); // 안전하게 참조 가능
+        // console.log("엑세스 토큰",user.user.accessToken); // 안전하게 참조 가능
       } else {
         console.error("accessToken is not available.");
       }
-      // const accessToken = account?.accessToken;
-      // const refreshToken = account?.refreshToken;
-  
-      const accessToken = user.user.accessToken;
-      const refreshToken = user.user.refreshToken;
-  
-      // return Promise.resolve(true);
-      // return Promise.resolve(user.user);
-      return { accessToken: accessToken, refreshToken: refreshToken}
-    },
-    async session(session: {session: {user: {accessToken: string, refreshToken: string}}}, user: {accessToken: string, refreshToken: string}) {
-      
-      console.log('유저', user)
-      session.session.user = user;
-      console.log("세션 유저",session);
-      // const decodedToken = jwt.verify(session.user.accessToken, process.env.JWT_SECRET);
-      // console.log(decodedToken)
-      // if (session.user && session.user.accessToken) {
-      //   const accessToken = session.user.accessToken;
-      //   const refreshToken = session.user.refreshToken;
     
-      //   session.accessToken = accessToken;
-      //   session.refreshToken = refreshToken;
-      // }
+      // const accessToken = user?.user?.accessToken;
+      // const refreshToken = user?.user?.refreshToken;
+      
+      // 중복된 토큰 필드 제거
+      // delete user.user.accessToken;
+      // delete user.user.refreshToken;
+
+      return true;
+    },
+    // async jwt(token, user, account) {
+    //   // Initial sign in
+    //   if (account && user) {
+    //     token.accessToken = account.accessToken;
+    //     token.accessTokenExpires = Date.now() + account.expires_in * 1000;
+    //     token.refreshToken = account.refreshToken;
+    //     token.user = user;
+    //   }
+
+    //   // Return previous token if the access token has not expired yet
+    //   if (Date.now() < token.accessTokenExpires) {
+    //     return token;
+    //   }
+
+    //   // Access token has expired, try to update it
+    //   return this.signIn();
+    // },
+    // async session(session, token) {
+    //   if (token) {
+    //     session.user = token.user;
+    //     session.accessToken = token.accessToken;
+    //     session.error = token.error;
+    //   }
+
+    //   return session;
+    // },
+    async jwt({ user, token }) {
+      if (user?.accessToken) {
+        token.accessToken = user.accessToken;
+        token.refreshToken = user.refreshToken;
+        // token.exp = decodedToken?.exp;
+        // token.iat = decodedToken?.iat;
+      }
+      // console.log("토큰",token); //<-- output below
+      return token;
+    },
+    async session(session: SessionWithUser) {
+      const decodedToken = jwt.decode(session.token.accessToken);
+      const expTime = decodedToken?.exp
+      session.token.exp = expTime
+      session.session.expires = expTime
+      // console.log("세션 토큰",session);
       return session;
     },
     // async redirect({ url, baseUrl }) {

@@ -143,3 +143,10 @@ pre {
         rounded-xl p-3 my-2
         border-solid border-2 border-cyan-500 dark:border-blue-500 
 }
+
+.draggable {
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none
+}

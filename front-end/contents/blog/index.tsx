@@ -1,21 +1,13 @@
 import clsx from "clsx";
 import BlogPreview from "./BlogPreview";
 import Image from "next/image";
-
-interface Data{
-    id: number,
-    title: string,
-    content: string,
-    hits: number,
-    createdAt: string,
-    img?: string
-}
+import Data from "@/interface/projectT.interface";
 
 interface P{
     data: Data[];
 }
 
-function BlogContents({data}: P){``
+function BlogContents({data}: P){
     if(!data){
         return <h1>데이터가 없습니다.</h1>
     }

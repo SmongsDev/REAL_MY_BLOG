@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-
+// https://next-auth.js.org/v3/tutorials/refresh-token-rotation
 const LoginForm = () => {
   const [formStatus, setFormStatus] = useState<string>();
 
@@ -24,6 +24,7 @@ const LoginForm = () => {
     });
     if (!result?.error) {
       setFormStatus(`Log in Success!`);
+      console.log(result)
       router.replace("/");
     } else {
       setFormStatus(`Error Occured : ${result.error}`);
@@ -31,6 +32,11 @@ const LoginForm = () => {
   }
 
   const { data: session, status } = useSession();
+  // useEffect(() => {
+  //   if (session?.error === "RefreshAccessTokenError") {
+  //     signIn(); // Force sign in to hopefully resolve error
+  //   }
+  // }, [session]);
   const router = useRouter();
   console.log(session);
   if (status === "authenticated") {

@@ -108,6 +108,7 @@ function Write() {
         if(status === "authenticated"){
             try {   
                 const data = await createPost(title, content, tags, category);
+                console.log(data);
                 if (data != null){
                     window.location.reload();
                 }

@@ -9,6 +9,7 @@ export default interface Data{
   content: string,
   hits: number,
   createdAt: string,
+  category: string,
   img?: string
-  tags?: TagType[];
+  hashTag?: TagType[];
 }

@@ -43,15 +43,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .httpBasic().disable()
-            .cors().configurationSource(corsConfigurationSource())
-            .and()
-            .csrf().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
-            .and()
+            .httpBasic(basic -> basic.disable())
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests()
-            .requestMatchers("/api/**","/member/**", "/auth/**").permitAll()
+            .requestMatchers("/api/**", "/member/**", "/auth/**").permitAll()
             .anyRequest().authenticated()
 
             .and()
@@ -63,7 +60,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(FRONT_URL)); // 허용할 Origin 설정
-        configuration.setAllowedMethods(Arrays.asList("GET,POST,DELETE,PUT,OPTIONS")); // 허용할 HTTP 메서드 설정
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT", "OPTIONS")); // 허용할 HTTP 메서드 설정
         configuration.setAllowedHeaders(Arrays.asList("*")); // 허용할 헤더 설정
         configuration.setAllowCredentials(true); // 인증 정보를 포함할 수 있도록 설정
 

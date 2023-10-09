@@ -9,9 +9,8 @@ function TILContents({ content }: {content: Data}) {
   const dateTimeString = content.createdAt;
   const parsedDate = parseISO(dateTimeString);
   const formattedDate = format(parsedDate, 'MMM dd, yyyy');
-
-  const tags = content.tags?.map((tag: TagType) => (<Tag key={tag.id} text={tag} />))
   
+  const tags = content.hashTag?.map((tag: TagType) => (<Tag key={tag.id} text={tag} />))
   const sanitizedHTML = DOMPurify.sanitize(content.content);
   
   return (

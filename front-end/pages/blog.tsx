@@ -21,7 +21,7 @@ interface BlogsProps {
       };
       errorCode: number;
     };
-  }
+}
 function Blog({ repo }: BlogsProps){
     
     return (

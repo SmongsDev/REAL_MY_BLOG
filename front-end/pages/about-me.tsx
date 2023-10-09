@@ -20,9 +20,6 @@ export default function AboutMe(){
                         description: "SMONGS's Infomation"
                     }}
                 />
-                    <div>
-                        
-                    </div>
                     <Profile />
                 </Page>
             </Layout>

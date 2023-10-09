@@ -13,6 +13,8 @@ spring:
             # use-new-id-generator-mapping: false
         properties:
             hibernate.format_sql: true
+        dialect:
+            org.hibernate.dialect.MySQLDialect
         # show-sql: true
     # profiles:
     #     include: security

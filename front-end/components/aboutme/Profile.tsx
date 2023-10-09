@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const Profile = () => {
     return (
-        <div className="flex justify-center items-center mt-10">
+        <div className="flex justify-center items-center mt-10 draggable">
             <div className="rounded-lg shadow-md p-5 flex items-center profile-card">
                 <Image src={"/img/footerLogo.png"} width={100} height={100} quality={100} alt="Profile" />
                 <div className="m-3">
@@ -20,7 +20,7 @@ const Profile = () => {
                             <div>
                                 레벨 : 
                                 <span className="pl-2">
-                                    10
+                                    21
                                 </span>
                             </div>
                             <div>
