@@ -1,15 +1,34 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-// https://next-auth.js.org/v3/tutorials/refresh-token-rotation
+
 const LoginForm = () => {
   const [formStatus, setFormStatus] = useState<string>();
 
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
 
-  const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
-  const passwordRegEx = /^[A-Za-z0-9]{8,20}$/
+  // const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
+  // const passwordRegEx = /^[A-Za-z0-9]{2,20}$/
+
+  // const emailCheck = (username) => {
+  //   if(emailRegEx.test(username)){
+  //     return true;
+  //   }
+  //   else {
+  //     setFormStatus('이메일 형식을 확인해주세요');
+  //     return false;
+  //   }
+  // }
+  // const passwordCheck = (password) => {
+  //   if(password.match(passwordRegEx) === null) { //형식에 맞지 않을 경우 아래 콘솔 출력
+  //     setFormStatus('비밀번호 형식을 확인해주세요');
+  //     return false;
+  //   }else{ // 맞을 경우 출력
+  //     console.log('비밀번호 형식이 맞아요');
+  //     return true;
+  //   }
+  // }
   //https://velog.io/@isabel_noh/React-%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EC%9D%B4%EB%A9%94%EC%9D%BC-%EB%B0%8F-%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8-%EC%A0%95%EA%B7%9C%EC%8B%9D
   async function submitHandler(event: React.SyntheticEvent) {
     event.preventDefault();
@@ -17,6 +36,9 @@ const LoginForm = () => {
     const enteredEmail = emailInputRef.current?.value;
     const enteredPassword = passwordInputRef.current?.value;
 
+    // if (!emailCheck(enteredEmail) || !passwordCheck(enteredPassword)){
+    //   console.log("다시")
+    // }    
     const result = await signIn("email-login", {
       email: enteredEmail,
       password: enteredPassword,
@@ -24,7 +46,6 @@ const LoginForm = () => {
     });
     if (!result?.error) {
       setFormStatus(`Log in Success!`);
-      console.log(result)
       router.replace("/");
     } else {
       setFormStatus(`Error Occured : ${result.error}`);
@@ -38,7 +59,6 @@ const LoginForm = () => {
   //   }
   // }, [session]);
   const router = useRouter();
-  console.log(session);
   if (status === "authenticated") {
     router.replace("/");
     return (
@@ -93,7 +113,6 @@ const LoginForm = () => {
             ref={passwordInputRef}
           />
           <p className="text-red-500 text-xs italic">
-            {/* Please choose a password. */}
             {formStatus}
           </p>
         </div>

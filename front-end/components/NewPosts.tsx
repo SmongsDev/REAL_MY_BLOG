@@ -29,11 +29,10 @@ const NewPosts = () => {
     return null;
   }
   const datas: Data[] = data.repo.data.content;
-  console.log(datas)
   return (
     <div className='flex flex-col gap-4'>
       <div
-        className='scrollbar-hide flex flex-1 flex-col gap-4 overflow-y-auto p-2'>
+        className='scrollbar-hide flex flex-1 flex-col gap-4 overflow-y-auto p-2 pb-5'>
         {datas.map(({ id, title, createdAt, category }) => {
             const link = category === 'blog' ? `/blog/${id}` : `/today-i-learned`;
 
@@ -41,7 +40,7 @@ const NewPosts = () => {
               <div key={createdAt}>
                 <Link
                   href={link}
-                  className='border-divider-light block rounded-xl border bg-white/50 p-4 text-sm backdrop-blur dark:border-divider-dark dark:bg-slate-900/60'>
+                  className='border border-divider-light dark:border-divider-dark recent-card'>
                   <div
                     className='mb-2 flex items-center justify-between text-xs text-slate-600 dark:text-slate-400'>
                     <span

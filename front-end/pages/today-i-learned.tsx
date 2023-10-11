@@ -27,7 +27,6 @@ function TIL({ repo }: TILListProps) {
   const [TILList, setTILList] = useState<JSX.Element[]>([]);
 
   useEffect(() => {
-      console.log(repo.data);
       if (repo.errorCode != 200) {
         console.error('데이터를 가져오는데 문제가 발생했습니다.');
       } else {
@@ -66,10 +65,9 @@ export const getServerSideProps: GetServerSideProps<TILListProps> = async () => 
   try {
       const requestHeaders: HeadersInit = new Headers();
       if (GITHUB_TOKEN) {
-          requestHeaders.set('X-Github-Token', GITHUB_TOKEN);
-          console.log("토큰 있음");
+        requestHeaders.set('X-Github-Token', GITHUB_TOKEN);
       } else {
-          console.log("토큰이 없어요!");
+        console.log("토큰이 없어요!");
       }
       const res = await fetch(`${DEFAULT_URL}/api/TIL/projects?size=8`, {
           method: 'GET',

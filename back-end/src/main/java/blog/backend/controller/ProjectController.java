@@ -55,6 +55,7 @@ public class ProjectController {
             .createdAt(data.getCreatedAt())
             .hits(data.getHits())
             .category(data.getCategory())
+            .hashTag(data.getTags())
             .build();
 
         return new ResponseDto<>(HttpStatus.OK.value(), dto);

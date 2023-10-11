@@ -105,6 +105,15 @@ button:hover .ql-fill,
     @apply bg-gradient-to-br from-sky-800 to-sky-200 
 }
 
+.recent-card {
+    @apply rounded-xl block
+        bg-white/50 p-4 text-sm backdrop-blur
+        transition duration-300 transform 
+        dark:bg-slate-900/60 
+        hover:shadow-lg
+        dark:hover:shadow-gray-400/40
+}
+
 .url-link {
     @apply text-slate-500 text-sm hover:text-sky-400
 }@use "katex/dist/katex.min.css";

@@ -48,10 +48,6 @@ export default function Header({
                         </a>
                     </Link>
                     <nav className="md:mr-auto md:ml-4 md:py-1 md:pl-4 flex flex-wrap items-center text-base justify-center font-[TheJamsil5Bold]">
-                        
-                        <Link key={'Home'} href={'/'} className="mr-5 hover:text-stone-900 dark:hover:text-gray-500" replace>
-                            {'Home'}
-                        </Link>
                         <Link key={'Blog'} href={'/blog'} className="mr-5 hover:text-stone-900 dark:hover:text-gray-500" replace>
                             {'Blog'}
                         </Link>

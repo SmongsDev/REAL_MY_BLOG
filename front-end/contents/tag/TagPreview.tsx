@@ -31,7 +31,6 @@ function TagPreview({
 
   const sanitizedHTML = DOMPurify.sanitize(description);
 
-  console.log(category)
   const link = category === 'blog' ? `/blog/${id}` : `/today-i-learned`;
 
   return (
@@ -54,8 +53,6 @@ function TagPreview({
             <time dateTime={date} className={clsx('first-letter:uppercase')}>
               {formattedDate}
             </time>
-            {/* <span>&middot;</span> */}
-            {/* <span>{formatLang(lang)}</span> */}
           </div>
           <div className='dark:text-slate-300'>
             POST - {category.toUpperCase()}

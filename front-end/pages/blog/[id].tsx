@@ -6,12 +6,14 @@ import { useRouter } from 'next/router';
 import { format, parseISO } from 'date-fns';
 import Image from 'next/image';
 
-import styles from '@/styles/content.module.css';
 import DOMPurify from 'dompurify';
+import { JSDOM } from "jsdom";
 
 import { DiscussionEmbed } from 'disqus-react';
 import { useTheme } from 'next-themes';
-import { useEffect } from 'react';
+import clsx from 'clsx';
+import TagList from '@/components/TagList';
+import TagType from '@/interface/projectT.interface';
 
 interface DataType{
   data: Data,
@@ -29,10 +31,10 @@ const BlogDetailPage = ({ repo }: ProjectDetailProps) => {
   const parsedDate = parseISO(dateTimeString);
   const formattedDate = format(parsedDate, 'MMM dd, yyyy');
 
-  const sanitizedHTML = DOMPurify.sanitize(repo.data.content);
+  const sanitizedHTML = DOMPurify((new JSDOM("<!DOCTYPE html>")).window).sanitize(repo.data.content);
   
   const { theme } = useTheme(); 
-
+  const tagList = repo.data.hashTag?.map((tag: TagType) => (<TagList key={tag.id} repo={tag} isCnt={false}/>));
   return (
     <>
       <Layout>
@@ -58,16 +60,17 @@ const BlogDetailPage = ({ repo }: ProjectDetailProps) => {
                     </h1>
                   </div>
                 </header>
+              <div className={clsx('content-wrapper')}>
                 <div
-                  className="divide-y divide-gray-200 pb-8 dark:divide-gray-700 xl:grid xl:grid-cols-4 xl:gap-x-6 xl:divide-y-0"
-                  style={{ gridTemplateRows: 'auto 1fr' }}
+                    className={clsx(
+                    'flex flex-col gap-8',
+                    'md:flex-row md:gap-8 lg:gap-24'
+                    )}
                 >
-                  <dl className="pt-6 pb-10 xl:border-b xl:border-gray-200 xl:pt-11 xl:dark:border-gray-700">
-                    <dt className="sr-only">Author</dt>
-                    <dd>
-                      <ul className="flex justify-center space-x-8 sm:space-x-12 xl:block xl:space-x-0 xl:space-y-8">
-                        <li className="flex items-center space-x-2 pl-3">
-                          <Image
+                    <div className={clsx('md:w-64')}> 
+                      {/* TODO: Filter Posts */}
+                      <div className="flex items-center space-x-2 p-10">
+                        <Image
                             src={"/img/footerLogo.png"}
                             alt="avatar"
                             width={100}
@@ -75,19 +78,20 @@ const BlogDetailPage = ({ repo }: ProjectDetailProps) => {
                             quality={100}
                             className="h-8 w-8 rounded-full"
                           />
-                          <dl className="whitespace-nowrap text-sm font-medium leading-5">
-                            <dt className="sr-only">Name</dt>
-                            <dd className="text-base font-bold text-gray-900 dark:text-gray-100 md:text-lg">
-                              SMONGS
-                            </dd>
-                          </dl>
-                        </li>
-                      </ul>
-                    </dd>
-                  </dl>
-                  <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
-                    <div className="prose max-w-none pt-10 pb-8 dark:prose-dark">
-                      <div className='test' dangerouslySetInnerHTML={{__html: sanitizedHTML}}></div>
+                          <div className='text-base font-bold text-gray-900 dark:text-gray-100 md:text-lg'>
+                            SMONGS
+                          </div>
+                      </div>
+                      <hr className='dark:border-gray-700'/>
+                      {/* <div className="text-lg font-bold p-5 text-gray-900 dark:text-gray-100 md:text-lg">
+                      🏷️ Tags
+                      </div> */}
+                      <div className='pl-10 pt-5'>
+                        {tagList}
+                      </div>
+                    </div>
+                    <div className={clsx('flex-1', 'divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0')}>
+                      <div className='prose max-w-none pt-10 pb-8 dark:prose-dark test' dangerouslySetInnerHTML={{__html: sanitizedHTML}}></div>
                     </div>
                   </div>
                 </div>
