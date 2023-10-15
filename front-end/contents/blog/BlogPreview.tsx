@@ -78,7 +78,7 @@ function BlogPreview({
             'dark:text-slate-400'
           )}
         >
-          <InsightIcon className={clsx('-mt-0.5 h-4 w-4')} />
+          <InsightIcon className={clsx('-mt-0.5 h-3 w-3')} />
           <span className={clsx('flex gap-1.5')}>
             <span
               className={clsx('flex items-center gap-1.5')}
@@ -96,7 +96,7 @@ function BlogPreview({
           )}
         >
           read more{' '}
-          <ChevronRightIcon className="mt-1 ml-1 h-4 w-4 transition" />
+          <ChevronRightIcon className="mt-1 ml-1 h-3 w-3 transition" />
         </div>
       </Link>
     </article>

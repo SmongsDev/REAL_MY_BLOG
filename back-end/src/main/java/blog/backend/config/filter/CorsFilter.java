@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter {
+    private final String FRONT_URL = "https://javascriptkr-curly-space-rotary-phone-j76j6qjgwq72jj66-3000.app.github.dev";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -24,7 +25,7 @@ public class CorsFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 		
-        response.setHeader("Access-Control-Allow-Origin", "*"); 
+        response.setHeader("Access-Control-Allow-Origin", FRONT_URL); 
         response.setHeader("Access-Control-Allow-Headers", "*");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Methods","*");

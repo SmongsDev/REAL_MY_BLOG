@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-// userDetailsImple에 account를 넣어주는 서비스입니다.
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	private final AccountRepository accountRepository;

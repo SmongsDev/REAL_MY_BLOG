@@ -4,6 +4,8 @@
 + Next.js + TypeScript
 + Tailwind CSS
 
+This Repo is for testing.
+
 ---
 나중에 repository 분리 예정
 

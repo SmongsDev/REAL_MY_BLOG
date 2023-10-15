@@ -25,7 +25,6 @@ public class ProjectService {
     private final HashTagService hashTagService;
     private final ProjectRepository projectRepository;
     private final HashTagRepository tagRepository;
-    // private final ProjectHashTagRepository projectHashTagRepository;
 
     @Transactional(readOnly = true)
     public Page<Project> projectList(Pageable pageable){
@@ -40,7 +39,6 @@ public class ProjectService {
 
     @Transactional
     public Project getProject(Long id){
-        // projectRepository.updateHits(id);
         Project project = projectRepository.findById(id).get();
         project.increaseCount();
         return project;
