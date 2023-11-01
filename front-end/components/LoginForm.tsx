@@ -8,18 +8,18 @@ const LoginForm = () => {
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
 
-  // const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
+  const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/i;
   // const passwordRegEx = /^[A-Za-z0-9]{2,20}$/
 
-  // const emailCheck = (username) => {
-  //   if(emailRegEx.test(username)){
-  //     return true;
-  //   }
-  //   else {
-  //     setFormStatus('이메일 형식을 확인해주세요');
-  //     return false;
-  //   }
-  // }
+  const emailCheck = (username: string) => {
+    if(emailRegEx.test(username)){
+      return true;
+    }
+    else {
+      setFormStatus('이메일 형식을 확인해주세요');
+      return false;
+    }
+  }
   // const passwordCheck = (password) => {
   //   if(password.match(passwordRegEx) === null) { //형식에 맞지 않을 경우 아래 콘솔 출력
   //     setFormStatus('비밀번호 형식을 확인해주세요');
@@ -36,19 +36,21 @@ const LoginForm = () => {
     const enteredEmail = emailInputRef.current?.value;
     const enteredPassword = passwordInputRef.current?.value;
 
-    // if (!emailCheck(enteredEmail) || !passwordCheck(enteredPassword)){
-    //   console.log("다시")
-    // }    
-    const result = await signIn("email-login", {
-      email: enteredEmail,
-      password: enteredPassword,
-      redirect: false,
-    });
-    if (!result?.error) {
-      setFormStatus(`Log in Success!`);
-      router.replace("/");
-    } else {
-      setFormStatus(`Error Occured : ${result.error}`);
+    if (enteredEmail && !emailCheck(enteredEmail)){ // || !passwordCheck(enteredPassword)
+      setFormStatus(`이메일 형식이 맞지 않습니다.`)
+    }    
+    else{
+      const result = await signIn("email-login", {
+        email: enteredEmail,
+        password: enteredPassword,
+        redirect: false,
+      });
+      if (!result?.error) {
+        setFormStatus(`Log in Success!`);
+        router.replace("/");
+      } else {
+        setFormStatus(`${result.error}`);
+      }
     }
   }
 
