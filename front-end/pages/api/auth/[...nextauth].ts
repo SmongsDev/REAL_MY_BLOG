@@ -1,7 +1,7 @@
 import { GITHUB_TOKEN } from '@/config/index';
-import NextAuth, { Session } from "next-auth";
+import NextAuth, { RequestInternal, Session } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import jwt from "jsonwebtoken";
+import { User } from 'next-auth';
 
 const DEFAULT_URL = "https://javascriptkr-curly-space-rotary-phone-j76j6qjgwq72jj66-8080.app.github.dev"
 const requestHeaders: HeadersInit = new Headers();
@@ -22,25 +22,30 @@ export default NextAuth({
         email: { label: "user email", type: "email", placeholder: "user@email.com" },
         password: {  label: "password", type: "password" },
       },
-      authorize: async (credentials) => {
-        const data = {
-          email: credentials?.email,
-          password: credentials?.password
-        }
-        const JSONdata = JSON.stringify(data);
-        const options = {
-          method: "POST",
-          headers: requestHeaders,
-          body: JSONdata,
-        };
+      authorize: async (credentials: Record<"email" | "password", string> | undefined, req: Pick<RequestInternal, "body" | "query" | "headers" | "method">): Promise<User | null> => {
         try {
+          const data = {
+            email: credentials?.email,
+            password: credentials?.password
+          }
+          const JSONdata = JSON.stringify(data);
+          const options = {
+            method: "POST",
+            headers: requestHeaders,
+            body: JSONdata,
+          };
           const res = await fetch(`${DEFAULT_URL}/auth/login`, options);
           if (res.ok) {
             const accessToken = res.headers.get("Access_Token") || null;
             const refreshToken = res.headers.get("Refresh_Token") || null;
-      
+        
             if (accessToken && refreshToken) {
-              return Promise.resolve({ accessToken, refreshToken });
+              const user: User = {
+                id: '1',
+                accessToken,
+                refreshToken,
+              };
+              return Promise.resolve(user);
             }
           }
           // 로그인 실패 처리
@@ -49,8 +54,7 @@ export default NextAuth({
           console.error("error:", error);
           return Promise.reject({message: error});
         }
-      },
-      
+      }
     }),
   ],
   pages: {
