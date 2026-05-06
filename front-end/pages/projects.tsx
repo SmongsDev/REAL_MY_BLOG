@@ -32,7 +32,7 @@ function Projects(){
         });
 
         return await octokit.request('GET /users/{username}/repos?sort={sort}&per_page={perPage}', {
-            username: 'javascriptKR',
+            username: 'SmongsDev',
             sort: 'updated', // created(기본값), updated, pushed, full_name
             perPage: 6,
             'X-GitHub-Api-Version': '2022-11-28'
